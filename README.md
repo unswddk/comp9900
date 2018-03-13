@@ -1,3 +1,3 @@
 # comp9900
 
-#hahaha
+#Four Little Cute Monsters' project
