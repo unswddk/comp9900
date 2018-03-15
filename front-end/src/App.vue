@@ -1,23 +1,26 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <Myhead/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import 'vue-awesome/icons'
+import Myhead from './components/head'
+import stockcard from './components/stockcard'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Myhead,
+    stockcard
+  }
 }
 </script>
 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  /* margin-top: 10px; */
 }
 </style>
