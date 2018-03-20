@@ -1,0 +1,4 @@
+week 2:
+ group formed, I incharge for developing work, so i decide to use Vue-cli to develop the fontend first,
+ week4:
+ nearly finish the front end part

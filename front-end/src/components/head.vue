@@ -1,55 +1,46 @@
 <template>
 <div class="header-container">
-  <span class="logo">
-{{ massage }}
+  <span class="logo"><b><strong>
+{{ massage }}</strong></b>
   </span>
-      <input class="search-bar" placeholder="Search"/>
 <icon class="icon-login"  name="user-plus"></icon>
 </div>
 </template>
 <script>
-import 'vue-awesome/icons'
+import "vue-awesome/icons";
 export default {
-  name: 'Myheader',
-  data () {
+  name: "Myheader",
+  data() {
     return {
-      massage: 'FLmansters'
-    }
+      massage: "FLmansters",
+      value1:''
+    };
   }
-}
+};
 </script>
 
 <style>
-.header-container{
-    margin: -8px;
-    background: rgb(231, 230, 228);
-    height: 45px;
+.header-container {
+  background: #fafafa;
+  height: 105px;
+  /* border-bottom:  1px rgb(231, 230, 228); */
 }
-.logo{
-    float: left;
-    width: 80px;
-    margin-left: 40px;
-    height: 45px;
-    font-size: 30px;
-    font-family: cursive;
-    color: rgb(145, 11, 138);
+.logo {
+  float: left;
+  width: 80px;
+  margin-top: 10px;
+  margin-left: 40px;
+  height: 45px;
+  font-size: 30px;
+  font-family: cursive;
+  color: rgb(145, 11, 138);
 }
-.icon-login{
-    float: right;
-    height: 45px;
-    width: 24px;
-    margin-right: 40px;
-    color: rgb(145, 11, 138);
-}
-.search-bar{
-    /* border-color: rgb(145, 11, 138); */
-    border: solid 1px  rgb(145, 11, 138);
-    border-radius: 20px;
-    background: rgb(231, 230, 228);
-    margin-top:13px;
-    height: 20px;
-    width: 160px;
-    margin-left:9%;
-    padding-left: 10px;
+.icon-login {
+  margin-top: 10px;
+  float: right;
+  height: 45px;
+  width: 24px;
+  margin-right: 40px;
+  color: rgb(145, 11, 138);
 }
 </style>
