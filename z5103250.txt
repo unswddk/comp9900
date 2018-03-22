@@ -1,2 +1,5 @@
 Week 3:
 Researching and familiarising myself with the existing stock portfolio management systems to come up with new ideas for our own project and writing the proposal.
+
+week 4:
+Reading and researching about machine learning techniques to get ideas on which algorithms will work well for us and what is the best way to implement them.
