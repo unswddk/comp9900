@@ -1,29 +1,29 @@
 # comp9900
 
-#Four Little Cute Monsters' project
+Four Little Cute Monsters' project
 
 
 [demo](https://unswddk.github.io/comp9900/#/)
 
 
 
-#Front-end: Vue-cli
+Front-end: Vue-cli
 
 
-#UI: i-view
+UI: i-view
 
 
-#Chart: V-Charts
-
-
-
-#API(stock info):https://www.alphavantage.co
+Chart: V-Charts
 
 
 
-
-#Back-end: Serverless
-
+API(stock info):https://www.alphavantage.co
 
 
-#DB: DynamoDB
+
+
+Back-end: Serverless
+
+
+
+DB: DynamoDB
