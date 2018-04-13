@@ -3,3 +3,6 @@ Researching and familiarising myself with the existing stock portfolio managemen
 
 week 4:
 Reading and researching about machine learning techniques to get ideas on which algorithms will work well for us and what is the best way to implement them.
+
+week 5:
+more research on machine learning techniques and also trying to understand our own data and perform some preprocessing tasks and labeling data.
