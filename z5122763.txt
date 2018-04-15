@@ -10,3 +10,9 @@ Stydied some front-end knowledges and machine learning materials.
 Week 5
 Managed trello and continully studied web development.
 
+Week 6
+Mid-break week.
+
+Week 7
+Managed trello and started collecting data for machine learning part.
+
