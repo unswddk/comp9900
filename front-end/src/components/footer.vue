@@ -1,10 +1,10 @@
 <template>
-<div class="footer">       © 2018 Copyright 
-            <a class="grey-text text-lighten-4 right" href="#!">COMP9900--four little monsters</a>
+<div class="footer" >      <p style="float:right"> © 2018 Copyright 
+            <a class="grey-text text-lighten-4 right" href="#!">COMP9900--four little monsters</a></p>
 </div>
 </template>
 <script>
-import "vue-awesome/icons";
+// import "vue-awesome/icons";
 export default {
   name: "Myfooter",
   data() {

@@ -1,35 +1,71 @@
 <template>
 <div>
-    <p>{{code}}</p>
-    <Card class="card">
-             <!-- <ve-candle class="chart" :data='chartData' :settings='chartSettings'></ve-candle> -->
-    </Card>
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <tr>
+  <tr>
+    <td>{{code}}</td>
+    <td>{{stockInfo["1. open"]}}</td>
+    <td>{{stockInfo["4. close"]}}</td>
+    <td><changeInfo v-bind:message="change"></changeInfo></td>
+    <td><changeInfo v-bind:message="changePg"></changeInfo><label>%</label></td>
+    <td>{{stockInfo["5. volume"]}}</td>
+    <td>
+      <trend :data="data" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend>
+      </td>
+      <td><Button type="text" size="small" @click="deleteStock(code)">Delete</Button></td>
+  </tr>
+</table>
 </div>
 </template>
 
 <script>
-import "vue-awesome/icons";
 import VCharts from "v-charts";
 import Vue from "vue";
 import iView from "iview";
+import Trend from "vuetrend";
+import changeInfo from"./change"
+Vue.use(Trend);
 Vue.use(VCharts);
 Vue.use(iView);
 export default {
   name: "stockcard",
-  props: {
-    code: ""
-  },
+  props: { code: "" },
   data: () => {
     return {
       newRows: [],
-      chartData: {
-        columns: ["日期", "open", "close", "lowest", "highest", "vol"],
-        rows: this.newRows
-      },
-      chartSettings: {}
+      data: [],
+      stockInfo: {
+        "1. open": "",
+        "2. high": "",
+        "3. low": "",
+        "4. close": "",
+        "5. volume": ""
+      }
     };
   },
-  mounted: function() {
+  components:{
+    changeInfo
+  },
+  computed: {
+    change: function() {
+      return Number(
+        this.stockInfo["4. close"] - this.stockInfo["1. open"]
+      ).toFixed(2);
+    },
+    changePg: function() {
+      return Number(this.change / this.stockInfo["1. open"]).toFixed(2);
+    }
+  },
+  created: function() {
     this.$http
       .get(
         "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" +
@@ -38,93 +74,54 @@ export default {
       )
       .then(
         response => {
-          // 响应成功回调
-          console.log(this.code);
           console.log(response.data["Time Series (Daily)"]);
-          let keys = Object.keys(response.data["Time Series (Daily)"]);
-          for (var i = keys.length - 1; i > 0; i--) {
-            this.newRows.push({
-              日期: keys[i],
-              open: response.data["Time Series (Daily)"][keys[i]]["1. open"],
-              close: response.data["Time Series (Daily)"][keys[i]]["4. close"],
-              lowest: response.data["Time Series (Daily)"][keys[i]]["3. low"],
-              highest: response.data["Time Series (Daily)"][keys[i]]["2. high"],
-              vol: response.data["Time Series (Daily)"][keys[i]]["6. volume"]
-            });
+          if (response.data["Time Series (Daily)"]) {
+            let keys = Object.keys(response.data["Time Series (Daily)"]);
+            for (var i = keys.length - 1; i > 0; i--) {
+              this.data.push(
+                Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
+              );
+            }
+            console.log(this.data);
           }
-          console.log(this.newRows);
-          this.chartData = {
-            columns: ["日期", "open", "close", "lowest", "highest", "vol"],
-            rows: this.newRows
-          };
-          this.chartSettings = {
-            showMA: true,
-            showVol: true,
-            labelMap: {
-              MA5: "ma5"
-            },
-            legendName: {
-              日K: "day k"
-            },
-            showDataZoom: true
-          };
         },
         response => {
-          // 响应错误回调
           console.log("服务器请求失败");
         }
       );
+  },
+  mounted:function() {
+     this.$http.get(
+        "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
+          this.code +
+          ".ax&apikey=D29LHM3HC6349901"
+      )
+      .then(response => {
+        if(response.data){
+        console.log(response.data);
+        let keys = Object.keys(response.data["Time Series (Daily)"]);
+        this.stockInfo = response.data["Time Series (Daily)"][keys[0]];
+        }})
+  },
+  methods: {
+    deleteStock(code) {
+      this.$emit("listenToChildeEvent", code);
+    },
   }
 };
 </script>
-
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+td {
+  padding: 8px;
+  /* text-align: center; */
+  width: 80px;
+  border-bottom: 1px solid #ddd;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+tr:hover {
+  background-color: #f5f5f5;
 }
-a {
-  color: #42b983;
-}
-.chart {
-  margin-top: 20px;
-}
-/* .card {
-  position: relative;
-  width: 40%;
-  height: 400px;
-  margin-top: 10px;
-  display: inline-block;
-  margin-left: 8px;
-  left: 4%;
-} */
-.card {
-  /* Add shadows to create the 'card' effect */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  position: relative;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  height: 440px;
-  width: 72%;
-}
-
-/* On mouse-over, add a deeper shadow */
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  border-top: rgb(92, 90, 92) solid 1px;
-}
-/* Add some padding ixnside the card container */
 </style>

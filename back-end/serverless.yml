@@ -1,0 +1,178 @@
+service: my-project
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: offline/migrations
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  environment:
+    DYNAMODB_TABLE:  TodosDynamoDbTable
+    USER_TABLE: UserbTable #DynamoDbExpenses is a logicalID also used when provisioning below
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:         
+        - { "Fn::GetAtt": ["TodosDynamoDbTable", "Arn"] } #you will also see the logical IDs below where they are provisioned
+        - { "Fn::GetAtt": ["UserbTable", "Arn"] }
+
+functions:
+  create:
+    handler: todos/create.create
+    environment:
+      TABLE_NAME: TodosDynamoDbTable
+    events:
+      - http:
+          path: todos
+          method: post
+          cors: true
+
+  list:
+    handler: todos/list.list
+    environment:
+      TABLE_NAME: TodosDynamoDbTable
+    events:
+      - http:
+          path: todos
+          method: get
+          cors: true
+
+  get:
+    handler: todos/get.get
+    environment:
+      TABLE_NAME: TodosDynamoDbTable
+    events:
+      - http:
+          path: todos/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: todos/update.update
+    environment:
+      TABLE_NAME: TodosDynamoDbTable
+    events:
+      - http:
+          path: todos/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: todos/delete.delete
+    environment:
+      TABLE_NAME: TodosDynamoDbTable
+    events:
+      - http:
+          path: todos/{id}
+          method: delete
+          cors: true
+
+  createUser:
+    handler: user/create.create
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: user
+          method: post
+          cors: true
+
+  getCompanyInfo:
+    handler: company/company.getCompanyInfo
+    events:
+      - http:
+          method: get
+          path: /getCompanyInfo
+          cors: true
+
+  login:
+    handler: user/login.login
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: login
+          method: get
+          cors: true
+          template:
+              application/json: '{ "email" : "$input.params(''email'')", "password": "$input.params(''password'')" }'
+  createProf:
+    handler: prof/create.create
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: createPf
+          cors: true
+          method: post
+  getProf:
+    handler: prof/get.get
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: getPf
+          cors: true
+          method: post
+  changePswd:
+    handler: user/forgetPswd.forgetPswd
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: changePswd
+          cors: true
+          method: post
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: TodosDynamoDbTable
+
+    UserbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: UserbTable
