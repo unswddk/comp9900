@@ -16,3 +16,8 @@ Mid-break week.
 Week 7
 Managed trello and started collecting data for machine learning part.
 
+Week 8
+Managed trello and did preprocess data part.
+
+Week 9
+Managed trello and basiclly finished knn stock prediction part.
