@@ -1,0 +1,294 @@
+<template>
+<div>
+    <Card class='protfio'>
+                    <span slot="title"> <b> My Portfolios </b></span>
+            <Button slot="title" class="addBtn" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button>
+            <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" style="dispaly:inline-block">
+                <FormItem prop="title">
+                        <Input type="text" v-model="formInline.title" placeholder="Title">
+                        <Button type="ghost"  icon="checkmark" slot="append" @click="createPrf()"></Button>
+                        </Input>
+                    </FormItem>
+            </Form>
+            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro.title)"><a v-bind:class="{ active: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
+            <div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
+                <Select v-model="stockCode" filterable class="section" @input="addStock(p)" size="small">
+             <Option v-for="item in stockList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
+             </Select>
+<table v-if="showTable">
+    <tr>
+    <th>Symbol</th>
+    <th>Open</th>
+     <th>Close</th>
+    <th>Change</th>
+    <th>% Chg</th>
+    <th>Vollume</th>
+    <th>Day Chart</th>
+    <th>Delete</th>
+    </tr>
+  </table>
+<stockcard v-for="i in p.element" :key="i.index" v-bind:code="i" v-on:listenToChildeEvent="deleteCode"></stockcard> 
+           </div>
+    </Card>
+</div>
+</template>
+<script>
+import { EventBus } from "./event-bus.js";
+import stockInProf from "./stockInProf.vue";
+import stockcard from "./stockcard.vue";
+export default {
+  name: "userProtfile",
+  data() {
+    const validateTitle = (rule, value, callback) => {
+      this.profList.forEach(element => {
+        if (element.title === value) {
+          callback(new Error("Protflio exit"));
+        }
+      });
+      callback();
+    };
+    return {
+      showAdd: false,
+      showTable: true,
+      parentMsg: [],
+      profList: [],
+      stockList: "",
+      stockCode: "MOQ",
+      titleList: [],
+      formInline: {
+        title: ""
+      },
+      ruleValidate: {
+        title: [
+          {
+            required: true,
+            message: "Please fill in the user name",
+            trigger: "blur"
+          },
+          { validator: validateTitle, trigger: "blur" }
+        ]
+      }
+    };
+  },
+  computed: {},
+  components: {
+    stockInProf,
+    stockcard
+  },
+  created: function() {
+    this.$http
+      .post(
+        "http://localhost:3000/getPf",
+        JSON.stringify({ email: localStorage.mail })
+      )
+      .then(
+        response => {
+          console.log(response);
+          this.profList = response.data.prof;
+          this.profList.forEach(e => {
+            e.isSeclected = false;
+          });
+          console.log(this.profList);
+        },
+        response => {
+          console.log(response);
+        }
+      ),
+      this.$http.get("http://localhost:3000/getCompanyInfo").then(
+        response => {
+          this.stockList = response.data.company;
+        },
+        response => {
+          console.log("服务器请求失败");
+        }
+      );
+  },
+  mounted: function() {
+    EventBus.$on("addToPf", data => {
+      this.profList.forEach(e => {
+        if (e.title === "default") {
+          e.element.push(data);
+          this.showTable = true;
+        }
+      });
+    });
+  },
+  methods: {
+    //get Prof
+    getProf() {
+      this.$http
+        .post(
+          "http://localhost:3000/getPf",
+          JSON.stringify({ email: localStorage.mail })
+        )
+        .then(
+          response => {
+            this.profList = response.data.prof;
+            console.log(this.profList);
+          },
+          response => {
+            console.log(response);
+          }
+        );
+    },
+
+    //create P
+    createPrf() {
+      this.$refs.formInline.validate(valid => {
+        if (valid) {
+          this.$Message.success("Success created!");
+          //将新建的title加到本地的array中 ，然后在把整个array传到后台，更新这个array
+          let newP = {
+            title: this.formInline.title,
+            element: [],
+            isSeclected: false
+          };
+          this.profList.push(newP);
+          const p = {
+            email: localStorage.mail,
+            prof: this.profList
+          };
+          this.$http
+            .post("http://localhost:3000/createPf", JSON.stringify(p))
+            .then(
+              response => {
+                console.log(response.data);
+              },
+              response => {
+                console.log("error");
+              }
+            );
+        } else {
+          this.$Message.error("Try another Title!");
+        }
+      });
+    },
+
+    //delete P
+    deleteProf(p) {
+      if (p.title == "default") {
+        this.$Message.error("can not delete the default one");
+      } else {
+        let a = this.profList.filter(element => element.title !== p);
+        this.profList = a;
+        const p2 = {
+          email: localStorage.mail,
+          prof: this.profList
+        };
+        this.$http
+          .post("http://localhost:3000/createPf", JSON.stringify(p2))
+          .then(
+            response => {
+              console.log(response);
+            },
+            response => {
+              console.log(response);
+            }
+          );
+      }
+    },
+    trasToChild(p) {
+      this.profList.forEach(element => {
+        element.isSeclected = false;
+      });
+      // this.color='rgb(79, 118, 202)';
+      this.$set(p, "isSeclected", true);
+      console.log(p.element);
+      if (JSON.stringify(p.element) !== "[]") {
+        this.showTable = true;
+      } else {
+        this.showTable = false;
+      }
+    },
+    deleteCode: function(data) {
+      console.log(data);
+      for (let i = 0; i < this.profList.length; i++) {
+        if (this.profList[i].isSeclected) {
+          if (this.profList[i].title === "default") {
+            EventBus.$emit("deleteInPf", true);
+          }
+          this.profList[i].element.splice(
+            this.profList[i].element.indexOf(data),
+            1
+          );
+          if (JSON.stringify(this.profList[i].element) === "[]") {
+            this.showTable = false;
+          }
+        }
+      }
+      const p2 = {
+        email: localStorage.mail,
+        prof: this.profList
+      };
+      this.$http
+        .post("http://localhost:3000/createPf", JSON.stringify(p2))
+        .then(
+          response => {
+            console.log(response);
+          },
+          response => {
+            console.log(response);
+          }
+        );
+    },
+    addStock(p) {
+      this.showTable = true;
+      p.element.push(this.stockCode);
+      this.profList.forEach(element => {
+        if (element.title === p.title) {
+          element = p;
+        }
+      });
+      const p1 = {
+        email: localStorage.mail,
+        prof: this.profList
+      };
+      this.$http
+        .post("http://localhost:3000/createPf", JSON.stringify(p1))
+        .then(
+          response => {
+            console.log(response.data);
+          },
+          response => {
+            console.log("error");
+          }
+        );
+      //向后台发送请求更新user
+    }
+  }
+};
+</script>
+<style scoped>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+.addBtn {
+  float: right;
+  margin-top: -9px;
+}
+a {
+  color: #000;
+}
+.active {
+  /* border: red 1px solid; */
+  background: rgb(79, 118, 202);
+  color: white;
+  /* width: 100%; */
+}
+.section {
+  width: 40%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+</style>
