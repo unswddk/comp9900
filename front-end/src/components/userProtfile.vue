@@ -10,7 +10,7 @@
                         </Input>
                     </FormItem>
             </Form>
-            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro.title)"><a v-bind:class="{ active: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
+            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro)"><a v-bind:class="{ active: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
             <div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
                 <Select v-model="stockCode" filterable class="section" @input="addStock(p)" size="small">
              <Option v-for="item in stockList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
@@ -83,12 +83,10 @@ export default {
       )
       .then(
         response => {
-          console.log(response);
           this.profList = response.data.prof;
           this.profList.forEach(e => {
             e.isSeclected = false;
-          });
-          console.log(this.profList);
+          })
         },
         response => {
           console.log(response);
@@ -111,6 +109,20 @@ export default {
           this.showTable = true;
         }
       });
+    const p = {
+            email: localStorage.mail,
+            prof: this.profList
+          };
+          this.$http
+            .post("http://localhost:3000/createPf", JSON.stringify(p))
+            .then(
+              response => {
+                console.log(response.data);
+              },
+              response => {
+                console.log("error");
+              }
+            );
     });
   },
   methods: {

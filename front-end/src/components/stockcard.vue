@@ -16,7 +16,7 @@
     <td>{{stockInfo["1. open"]}}</td>
     <td>{{stockInfo["4. close"]}}</td>
     <td><changeInfo v-bind:message="change"></changeInfo></td>
-    <td><changeInfo v-bind:message="changePg"></changeInfo><label>%</label></td>
+    <td><changeInfo v-bind:message="changePg"></changeInfo><label></label></td>
     <td>{{stockInfo["5. volume"]}}</td>
     <td>
       <trend :data="data" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend>
@@ -62,7 +62,7 @@ export default {
       ).toFixed(2);
     },
     changePg: function() {
-      return Number(this.change / this.stockInfo["1. open"]).toFixed(2);
+      return Number(this.change / this.stockInfo["1. open"]).toFixed(2)+"%";
     }
   },
   created: function() {

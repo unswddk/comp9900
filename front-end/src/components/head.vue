@@ -1,4 +1,5 @@
 <template>
+<div>
 <div class="header-container">
   <span class="logo"><b><strong>
 {{ massage }}</strong></b>
@@ -62,9 +63,12 @@
     </Form>
     </Modal>
 </div>
+<sector class="sector"></sector>
+</div>
 </template>
 <script>
-import { EventBus } from './event-bus.js';
+import { EventBus } from "./event-bus.js";
+import sector from "./sector.vue";
 // import "vue-awesome/icons";
 export default {
   name: "Myheader",
@@ -175,6 +179,7 @@ export default {
       }
     };
   },
+  components: { sector },
   methods: {
     signup() {
       this.$refs.formValidate.validate(valid => {
@@ -184,24 +189,26 @@ export default {
             email: this.formValidate.mail,
             password: this.formValidate.password,
             gender: this.formValidate.gender,
-            prof: [{
-                title:'default',
+            prof: [
+              {
+                title: "default",
                 element: [],
                 isSeclected: true
-            }]
+              }
+            ]
           };
           this.$http
             .post("http://localhost:3000/user", JSON.stringify(user))
             .then(
               response => {
                 console.log(response.body);
-                 if (response.status == 200) {
+                if (response.status == 200) {
                   this.$store.commit("isLogin", response.data);
-                  localStorage.username =response.data.username;
+                  localStorage.username = response.data.username;
                   localStorage.mail = response.data.email;
                   localStorage.token = response.data.token;
-                  this.username=localStorage.username;
-                  EventBus.$emit('login',this.username);
+                  this.username = localStorage.username;
+                  EventBus.$emit("login", this.username);
                 }
               },
               response => {
@@ -233,11 +240,11 @@ export default {
                 console.log(response.data);
                 if (response.status == 200) {
                   // this.$store.commit("isLogin", response.data);
-                  localStorage.username =response.body.data.Item.username;
+                  localStorage.username = response.body.data.Item.username;
                   localStorage.mail = response.body.data.Item.email;
                   localStorage.token = response.body.data.token;
-                  this.username=localStorage.username;
-                  EventBus.$emit('login',this.username);
+                  this.username = localStorage.username;
+                  EventBus.$emit("login", this.username);
                   this.$router.push({ path: "/" });
                 }
               },
@@ -257,27 +264,32 @@ export default {
     handleReset() {
       this.$refs.formValidate.resetFields();
     },
-    changePswd(){
+    changePswd() {
       this.$http
-            .post("http://localhost:3000/changePswd", 
-             JSON.stringify({
-                email:this.loginformValidate.mail,
-            }))
-            .then(response=>{
-              console.log(response);
-              this.$Message.success(response.body);
-            },response=>{
-              console.log(response);
-              this.$Message.error(response);
-            });
+        .post(
+          "http://localhost:3000/changePswd",
+          JSON.stringify({
+            email: this.loginformValidate.mail
+          })
+        )
+        .then(
+          response => {
+            console.log(response);
+            this.$Message.success(response.body);
+          },
+          response => {
+            console.log(response);
+            this.$Message.error(response);
+          }
+        );
     },
     logout() {
-      this.$store.dispatch('clearUser');
+      this.$store.dispatch("clearUser");
       localStorage.removeItem("mail");
       localStorage.removeItem("token");
-      this.username = ''; 
-      EventBus.$emit('logout',this.username);
-       this.$router.push({ path: "/" });
+      this.username = "";
+      EventBus.$emit("logout", this.username);
+      this.$router.push({ path: "/" });
     }
   }
 };
@@ -286,7 +298,7 @@ export default {
 <style>
 .header-container {
   background: #fafafa;
-  height: 85px;
+  height: 65px;
   top: 0;
   display: block;
   /* position:fixed; */
@@ -307,20 +319,16 @@ export default {
 .icon-login {
   margin-top: 19px;
   float: right;
-  /* height: 45px;
-  width: 24px; */
-  /* font-size: 20px; */
-  /* font-family: cursive; */
   color: rgb(79, 118, 202);
   margin-right: 40px;
-  /* float: right; */
-  /* color: rgb(89, 126, 206); */
 }
 .vertical-center-modal {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* top:-1 */
-  /* bottom:10% */
+}
+.sector{
+  background: #fafafa;
+  bottom:0;
 }
 </style>

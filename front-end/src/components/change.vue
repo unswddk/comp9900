@@ -4,6 +4,7 @@
 </div>
 </template>
 <script>
+
 export default {
   name: "change",
   props:['message'],
@@ -14,9 +15,10 @@ export default {
   },
   computed:{
  classObject:function(){
+     console.log(this.message.includes("-"));
     return {
-      active: this.message>=0.00,
-      redCol: this.message<0.00
+      active: !this.message.includes("-"),
+      redCol: this.message.includes("-")
     }
 }
   }
@@ -29,6 +31,18 @@ export default {
 .redCol{
     color: red;
 }
+.active::before{
+  content: "\f0d8";
+  display: inline-block;
+  font-family: FontAwesome;
+}
+.redCol::before{
+  content: "\f0d7";
+  display: inline-block;
+  font-family: FontAwesome;
+  /* position: absolute; */
+  /* left: 2.9em; */
+  }
 .message{
 display: inline-block;
 }

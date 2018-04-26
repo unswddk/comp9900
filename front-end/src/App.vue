@@ -5,9 +5,7 @@
     <Myfooter />
   </div>
 </template>
-
 <script>
-
 import VueResource from 'vue-resource';
 import Vuex from 'vuex'
 import Vue from "vue";

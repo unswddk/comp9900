@@ -4,7 +4,8 @@
     <Col offset='4' class="col1" span="16">
     <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button></Tooltip></p>
     <p><Icon type="code"></Icon> Code: {{ model10 }} </p>
-    <p><label  style="color:green"> {{Number(stockInfo['4. close']).toFixed(2)}}</label><span class="change"><changeInfo v-bind:message="change"></changeInfo>(<changeInfo v-bind:message="changePg"></changeInfo>%)</span></p>
+    <p><label> {{Number(stockInfo['4. close']).toFixed(2)}}</label><span class="change"><changeInfo v-bind:message="change"></changeInfo>(<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
+    </p>
     <p><Icon type="ios-world-outline"></Icon> Group: {{group}}</p>
     <p>Peer:</p>
    <div class="buttonZoom">
@@ -104,18 +105,20 @@ import Vue from "vue";
 import stockcardVue from "./stockcard.vue";
 import VCharts from "v-charts";
 import iView from "iview";
-import changeInfo from"./change"
+import changeInfo from "./change";
+import Trend from "vuetrend";
 import { EventBus } from "./event-bus.js";
 import userProtfile from "./userProtfile.vue";
 // import stockData from "./model/stock";
 Vue.use(VCharts);
+Vue.use(Trend);
 Vue.use(iView);
 export default {
   name: "mainPage",
   data() {
     return {
       user: localStorage.mail,
-      // parentMsg:'',
+      stockData: [],
       code: "",
       cityList: [],
       model10: "MOQ",
@@ -198,12 +201,15 @@ export default {
   },
   computed: {
     change: function() {
-      return Number(
-        this.stockInfo["4. close"] - this.stockInfo["1. open"]
-      ).toFixed(2);
+      return (
+        "" +
+        Number(this.stockInfo["4. close"] - this.stockInfo["1. open"]).toFixed(
+          2
+        )
+      );
     },
     changePg: function() {
-      return Number(this.change / this.stockInfo["1. open"]).toFixed(2);
+      return Number(this.change / this.stockInfo["1. open"]).toFixed(2) + "%";
     }
   },
   components: {
@@ -217,7 +223,6 @@ export default {
         this.getCityList();
         this.getPeer();
         this.getPeerInfo();
-        // this.getTechInfo();
       },
       response => {
         // 响应错误回调
@@ -239,9 +244,9 @@ export default {
       );
   },
   mounted: function() {
-    EventBus.$on('deleteInPf',data=>{
-        this.active=data;
-      });
+    EventBus.$on("deleteInPf", data => {
+      this.active = data;
+    });
     EventBus.$on("login", username => {
       console.log("login");
       this.user = true;
@@ -249,6 +254,23 @@ export default {
       EventBus.$on("logout", code => {
         console.log("logout");
         this.user = false;
+      });
+    this.$http
+      .post(
+        "http://localhost:3000/getPf",
+        JSON.stringify({ email: localStorage.mail })
+      )
+      .then(response => {
+        this.prortFolio = response.data.prof;
+        console.log(this.prortFolio);
+        if (
+          this.prortFolio.filter(
+            e => e.title == "default" && e.element.indexOf(this.model10) > -1
+          ).length > 0
+        ) {
+          this.active = false;
+        }
+        response => {};
       });
     this.$http
       .get(
@@ -260,7 +282,11 @@ export default {
         // 响应成功回调
         let keys = Object.keys(response.data["Time Series (Daily)"]);
         this.stockInfo = response.data["Time Series (Daily)"][keys[0]];
+        // this.stockData=[];
         for (var i = keys.length - 1; i > 0; i--) {
+          this.stockData.push(
+            Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
+          );
           this.newRows.push({
             日期: keys[i],
             open: Number(
@@ -311,7 +337,11 @@ export default {
             let keys = Object.keys(response.data["Time Series (Daily)"]);
             this.stockInfo =
               response.data["Time Series (Daily)"][keys[keys.length - 1]];
+            this.stockData=[];
             for (var i = keys.length - 1; i > 0; i--) {
+              this.stockData.push(
+            Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
+          );
               this.newRows.push({
                 日期: keys[i],
                 open: Number(
@@ -353,10 +383,6 @@ export default {
       this.getPeer();
       this.getPeerInfo();
       // this.getTechInfo();
-      this.active = true;
-      if (this.prortFolio.filter(e => e.code === this.model10).length > 0) {
-        this.active = false;
-      }
     },
     getPeer: async function() {
       this.peer = [];
@@ -411,14 +437,14 @@ export default {
       this.model10 = pe.code;
     },
     addToP() {
-      EventBus.$emit('addToPf',this.model10);
+      EventBus.$emit("addToPf", this.model10);
       this.prortFolio.push({
         code: this.model10,
         name: this.companyName,
         group: this.group
       });
       this.active = false;
-    },
+    }
   }
 };
 </script>
@@ -522,10 +548,14 @@ hr {
   border: 0;
   box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
-.newRelated{
+.stockTrend {
+  width: 150px;
+  /* height: 50px; */
+}
+.newRelated {
   color: blue;
   width: 50px;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 </style>
