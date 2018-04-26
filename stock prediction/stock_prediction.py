@@ -5,18 +5,14 @@ Created on Mon Apr 23 16:48:46 2018
 
 @author: chenyirong
 """
-import preprocess
-import csv
+#import preprocess
 import random
 import math
 import operator
+import csv
+import requests
 
-i#mport pandas_datareader.data as web
-import datetime
 import pandas as pd
-
-import matplotlib.pyplot as plt   # Import matplotlib
-import json
 
 # split the data into a trainingdataset and testdataset in ratio of 67/33
 
@@ -96,65 +92,12 @@ def getAccuracy(testSet, predictions):
     return (correct/float(len(testSet))) * 100.0
 
 
-#def getAccuracy1(testSet, predictions):
-#    correct = 0
-#    for x in range(len(testSet)):
-#        if RMSD(testSet[x][-1], predictions[x]) < 1:
-#            correct += 1
-#    return (correct/float(len(testSet))) * 100.0
-
-
-#def RMSD(X, Y):
-#    return math.sqrt(pow(Y - X, 2))
-
-
-#def change(today, yest):
-#    if today > yest:
-#        return 'up'
-#    return 'down'
-
-#def getData(filename, stockname, startdate, enddate):
-#    stock = web.DataReader(stockname, 'yahoo', startdate, enddate)
-#    print("done making network call")
-#    ass = [stock.index]
-#    stck_json = stock.to_json(orient="index", date_format='iso')
-#    stck_dates = json.loads(stck_json)
-#
-#    plt.plot(stock["Adj Close"])
-#    plt.title("Stock movement of " + stockname)
-#
-#    first_time = True
-#    with open(filename, 'wb') as pp:
-#        stockwriter = csv.writer(pp)
-#        stp = sorted(stck_dates.keys())
-#        for i in stp:
-#            new_format_date = i[:10]
-#            if first_time:
-#                first_time = False
-#                prev_closing = stck_dates[i]["Adj Close"]
-#                continue
-#            stockwriter.writerow([new_format_date] + [stck_dates[i]["Open"]] +  [stck_dates[i]["High"]] + [stck_dates[i]["Low"]]  +  [stck_dates[i]["Adj Close"]] + [change(stck_dates[i]["Adj Close"], prev_closing)])
-#            prev_closing = stck_dates[i]["Adj Close"]
-
-
-#def abc(filename, stockname, startdate, enddate):
-#    apple = web.DataReader(stockname, 'yahoo', startdate, enddate)
-#    with open(filename, 'wb') as csvfile:
-#        stockwriter = csv.writer(csvfile, quotechar=',')
-#        for ind in range(1, len(apple.Open)):
-#            stockwriter.writerow(["open: "] + [apple.Open[ind - 1]] + ["    high: "] + [apple.High[ind - 1]] + ["   low: "] + [apple.Low[ind - 1]] + ["  yester close: "] + [apple['Adj Close'][ind - 1]] + [" volume: "] + [apple.Volume[ind - 1]] + [change(apple['Adj Close'][ind], apple['Adj Close'][ind - 1])])
-
-
-
-def predictFor(k, filename, stockname, startdate, enddate, writeAgain, split):
-    iv = ["date", "open", "high", "low", "close", "yesterday closing adj","state change"]
+def predictFor(k, filename, stockname, split):
+    #iv = ["date", "open", "high", "low", "close", "yesterday closing adj","state change"]
+    iv = ["date", "open", "high", "low", "close","state change"]
     trainingSet = []
     testSet = []
     totalCount = 0
-
-#    if writeAgain:
-#        print("making a network request")
-#        getData(filename, stockname, startdate, enddate)
 
     # open the file
     loadDataset(filename, split, trainingSet, testSet, iv)
@@ -178,39 +121,10 @@ def predict_and_get_accuracy(testSet, trainingSet, k, stockname):
 
     accuracy = getAccuracy(testSet, predictions)
     print('Accuracy: ' + repr(accuracy) + '%')
-
-#    # drawing another
-#    plt.figure(2)
-#    plt.title("Prediction vs Actual Trend of " + stockname)
-#    plt.legend(loc="best")
-#    row = []
-#    col = []
-#    for dates in range(len(testSet)):
-#        new_date = datetime.datetime.strptime(testSet[dates][0], "%Y-%M-%d")
-#        row.append(new_date)
-#        if predictions[dates]== "down":
-#            col.append(-1)
-#        else:
-#            col.append(1)
-#    predicted_plt, = plt.plot(row, col, 'r', label="Predicted Trend")
-#    
-#    row = []
-#    col = []
-#    for dates in range(len(testSet)):
-#        new_date = datetime.datetime.strptime(testSet[dates][0], "%Y-%M-%d")
-#        row.append(new_date)
-#        if testSet[dates][-1]== "down":
-#            col.append(-1)
-#        else:
-#            col.append(1)
-#    actual_plt, = plt.plot(row, col, 'b', label="Actual Trend")
-#
-#    plt.legend(handles=[predicted_plt, actual_plt])
-#
-#
-#    plt.show()
+    
 def predictForTomorrow(k, filename, yesterday_instance, split):
-    iv = ["date", "open", "high", "low", "close", "yesterday closing adj","state change"]
+    #iv = ["date", "open", "high", "low", "close", "yesterday closing adj","state change"]
+    iv = ["date", "open", "high", "low", "close","state change"]
     trainingSet = []
     testSet = []
     # open the file
@@ -221,30 +135,84 @@ def predictForTomorrow(k, filename, yesterday_instance, split):
     
     print(result)
     return result
+
+def preprocess_data(stock_code):
+    #stock_code = "BFR"
     
-def main():
-    stock_code = "MSFT"
-    yesterday_instance = preprocess.preprocess_data(stock_code)
+    #url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+stock_code+"&outputsize=full&apikey=QQW8ENTIJEEQ0S23&datatype=csv"
+    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_code+"&outputsize=full&apikey=QQW8ENTIJEEQ0S23&datatype=csv"
+    file_name = "daily_adjusted_" + stock_code + ".csv"
+    r = requests.get(url) 
+    with open(file_name, "wb") as file:  # 文件名通过解析url地址得到
+        file.write(r.content)
+
+    
+    file = open(file_name,'r')
+    out_name = stock_code + '.csv'
+    out = open(out_name,'w', newline ='')
+    reader = csv.reader(file)
+    #length = len(list(reader))
+    #print(length)
+    sortedlist = sorted(reader, key = lambda x: x[0])
+    length = len(sortedlist)
+    csv_writer = csv.writer(out,dialect='excel')
+    
+    n = 0
+    previous_adjusted_closing_price = 0
+    yesterday_instance = []
+    for line in sortedlist:
+        #print(n)
+        line.pop()
+        #line.pop()
+        #line.pop()
+        if n == 0:
+            #previous_adjusted_closing_price = float(line[5])
+            previous_adjusted_closing_price = float(line[4])
+            #csv_writer.writerow(line)
+            n += 1
+        else:
+            if line[0] == 'timestamp':
+                n += 1
+                continue
+            elif n == length - 2:
+                for x in line:
+                    try:
+                        m = float(x)
+                    except Exception:
+                        yesterday_instance.append(x)
+                    else:
+                        yesterday_instance.append(float(x))
+            else:
+                #if float(line[5]) - previous_adjusted_closing_price > 0:
+                if float(line[4]) - previous_adjusted_closing_price > 0:
+                    line.append('up')
+                    csv_writer.writerow(line)
+                    #previous_adjusted_closing_price = float(line[5])
+                    previous_adjusted_closing_price = float(line[4])
+                    n += 1
+                else:
+                    line.append('down')
+                    csv_writer.writerow(line)
+                    #previous_adjusted_closing_price = float(line[5])
+                    previous_adjusted_closing_price = float(line[4])
+                    n += 1
+    
+          
+    file.close()
+    out.close()
+    return yesterday_instance
+    
+#def main(stock_code):
+def get_prediction(code):
+    stock_code = code
+    yesterday_instance = preprocess_data(stock_code)
     print(yesterday_instance)
     split = 0.67
-    # set data
-    startdate = datetime.datetime(2000,1,4)
-    enddate = datetime.datetime(2018,4,20)
-#    startdate = datetime.datetime(2002,1,1)
-#    enddate = datetime.date.today()
-    
     
     predict_file_name = stock_code + '.csv'
-    predictFor(1, predict_file_name, stock_code, startdate, enddate, 0, split)
+    predictFor(1, predict_file_name, stock_code, split)
     prediction = predictForTomorrow(1, predict_file_name, yesterday_instance, 1)
     
     return prediction
-#    predictFor(1, 'BFR1.csv', 'BFR', startdate, enddate, 0, split)
-#    predictFor(3, 'amazon.csv', 'AMZN', startdate, enddate, 0, split)
-#    predictFor(5, 'disney.csv', 'DIS', startdate, enddate, 1, split)
-#    predictFor(5, 'sbux.csv', 'SBUX', startdate, enddate, 1, split)
-#    predictFor(5, 'twlo.csv', 'TWLO', startdate, enddate, 1, split)
-#    predictFor(5, 'twtr.csv', 'TWTR', startdate, enddate, 1, split)
-#    predictFor(5, 'yahoo.csv', 'YHOO', startdate, enddate, 1, split)
 
-main()
+get_prediction("WFC")
