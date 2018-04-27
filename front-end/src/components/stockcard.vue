@@ -74,15 +74,15 @@ export default {
       )
       .then(
         response => {
-          console.log(response.data["Time Series (Daily)"]);
+          console.log(response);
           if (response.data["Time Series (Daily)"]) {
             let keys = Object.keys(response.data["Time Series (Daily)"]);
+            console.log(keys);
             for (var i = keys.length - 1; i > 0; i--) {
               this.data.push(
                 Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
               );
             }
-            console.log(this.data);
           }
         },
         response => {

@@ -3,10 +3,10 @@
   <Row class="firstRow" >
     <Col offset='4' class="col1" span="16">
     <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button></Tooltip></p>
-    <p><Icon type="code"></Icon> Code: {{ model10 }} </p>
+    <p><Icon type="code"></Icon> {{ model10 }} </p>
     <p><label> {{Number(stockInfo['4. close']).toFixed(2)}}</label><span class="change"><changeInfo v-bind:message="change"></changeInfo>(<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
     </p>
-    <p><Icon type="ios-world-outline"></Icon> Group: {{group}}</p>
+    <p><Icon type="ios-world-outline"></Icon>{{group}}</p>
     <p>Peer:</p>
    <div class="buttonZoom">
     <Button type="ghost" shape="circle"   v-for="pe in peer" :value='pe.code' :key='pe.name' v-on:click="changePeer(pe)">{{pe.code}}</Button>
@@ -33,40 +33,21 @@
 <br>
     <Row>
       <Col offset='2' span='10'>
-      <Card>
-        <p slot="title">Stock Technical Indicators</p>
-        <ul>
-          <li><span>Simple Moving Average (SMA)</span>{{SMA?SMA:''}}</li>
-          <li><span>Exponential Moving Average (EMA)</span>{{EMA }}</li>
-          <li><span>Moving Average Convergence/Divergence (MACD)</span>{{MACD}}</li>
-          <li><span>Stochastic (STOCH):SlowD</span>{{SlowD}}</li>
-          <li><span>Stochastic (STOCH):SlowK</span>{{SlowK}}</li>
-           <li><span>Relative Strength Index (RSI)</span>{{RSI}}</li>
-          <li><span>Average Directional Movement Index (ADX)</span>{{ ADX  }}</li>
-          <li><span>Commodity Channel Index (CCI)</span>{{ CCI  }}</li>
-          <li><span>Chaikin A/D Line</span>{{ AD  }}</li>
-          <li><span>On Balance Volume (OBV)</span>{{ OBV  }}</li>
-          <!-- <li><span>Volume</span>{{ stockInfo['5. volume']  }}</li> -->
-        </ul>
-        </Card>
-         <!-- <Table :columns="columns1" :data="peerInfo"></Table> -->
+        <techInductor class="techInductor" v-bind:message="model10"></techInductor>
       </Col>
       <Col  span='10' style="margin-left:7px">
        <Card>
          <p slot="title">
          Stock Informationo Summary</p>
-         <li><span>{{companyName }}</span></li>
-          <li><span>Code</span>{{model10}}</li>
-          <li><span>Change</span>{{change}}</li>
-          <li><span>Change(%)</span>{{changePg}}</li>
-          <li><span>Open</span>{{ stockInfo['1. open']  }}</li>
-          <li><span>High</span>{{ stockInfo['2. high']  }}</li>
-          <li><span>Low</span>{{ stockInfo['3. low']  }}</li>
-          <li><span>Close</span>{{ stockInfo['4. close']  }}</li>
-          <li><span>Volume</span>{{ stockInfo['5. volume']  }}</li>
-          <li><span> </span></li>
+         <li>{{companyName }}</li>
+          <li> Open<span  class="summary-number">{{ stockInfo['1. open']  }}</span></li>
+          <li> High<span class="summary-number">{{ stockInfo['2. high']  }}</span></li>
+          <li> Low<span class="summary-number">{{ stockInfo['3. low']  }}</span></li>
+          <li> Close<span class="summary-number">{{ stockInfo['4. close']  }}</span></li>
+          <li> Volume<span class="summary-number">{{ stockInfo['5. volume']  }}</span></li>
+          <li> Change<span class="summary-number"><changeInfo v-bind:message="change"></changeInfo></span></li>
+          <li> Change(%)<span class="summary-number"><changeInfo v-bind:message="changePg"></changeInfo></span></li>
           </Card>
-         <!-- <Table :columns="columns1" :data="peerInfo"></Table> -->
       </Col>
     </Row>
     <Row>
@@ -92,14 +73,11 @@
              <br>
         </ul>
           </Card>
-         <!-- <Table :columns="columns1" :data="peerInfo"></Table> -->
       </Col>
     </Row> 
      <BackTop></BackTop>
   </div>
-
 </template>
-
 <script>
 import Vue from "vue";
 import stockcardVue from "./stockcard.vue";
@@ -109,7 +87,7 @@ import changeInfo from "./change";
 import Trend from "vuetrend";
 import { EventBus } from "./event-bus.js";
 import userProtfile from "./userProtfile.vue";
-// import stockData from "./model/stock";
+import techInductor from "./techInductor.vue";
 Vue.use(VCharts);
 Vue.use(Trend);
 Vue.use(iView);
@@ -126,16 +104,6 @@ export default {
       group: "Software & Services",
       newRows: [],
       peerInfo: [],
-      SMA: "",
-      EMA: "",
-      MACD: "",
-      SlowD: "",
-      SlowK: "",
-      ADX: "",
-      RSI: "",
-      CCI: "",
-      AD: "",
-      OBV: "",
       username: "",
       news: [],
       columns1: [
@@ -214,7 +182,8 @@ export default {
   },
   components: {
     userProtfile,
-    changeInfo
+    changeInfo,
+    techInductor
   },
   created: function() {
     this.$http.get("http://localhost:3000/getCompanyInfo").then(
@@ -337,11 +306,11 @@ export default {
             let keys = Object.keys(response.data["Time Series (Daily)"]);
             this.stockInfo =
               response.data["Time Series (Daily)"][keys[keys.length - 1]];
-            this.stockData=[];
+            this.stockData = [];
             for (var i = keys.length - 1; i > 0; i--) {
               this.stockData.push(
-            Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
-          );
+                Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
+              );
               this.newRows.push({
                 日期: keys[i],
                 open: Number(
@@ -382,7 +351,6 @@ export default {
       this.getCityList();
       this.getPeer();
       this.getPeerInfo();
-      // this.getTechInfo();
     },
     getPeer: async function() {
       this.peer = [];
@@ -453,10 +421,6 @@ export default {
   margin-bottom: 30px;
   width: 250px;
 }
-span {
-  width: 350px;
-  display: inline-block;
-}
 .addIcon {
   right: 1;
   color: black;
@@ -486,8 +450,8 @@ a:hover {
   text-decoration: #000;
 }
 p {
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: "Helvetica Neue", "Helvetica", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", "Arial", "sans-serif";
 }
 .section {
   display: block;
@@ -516,15 +480,9 @@ p {
   font: 1.2em sans-serif;
 }
 .card {
-  /* Add shadows to create the 'card' effect */
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   position: relative;
-  /* top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;*/
 }
 .firstRow {
   margin-top: 100px;
@@ -550,7 +508,11 @@ hr {
 }
 .stockTrend {
   width: 150px;
+  display: inline-block;
   /* height: 50px; */
+}
+.summary-number{
+  float: right;
 }
 .newRelated {
   color: blue;

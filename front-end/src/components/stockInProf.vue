@@ -4,7 +4,6 @@
      <Select v-model="stockCode" filterable class="section" @input="addStock()" size="small">
         <Option v-for="item in stockList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
     </Select>
-    <!-- </div> -->
     <stockcard v-for="item in showStock" v-bind:code="item" :key="item"></stockcard>
 </div>
 </template>

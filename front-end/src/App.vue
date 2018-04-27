@@ -17,11 +17,20 @@ Vue.use(Vuex)
 Vue.use(VueResource);
 export default {
   name: 'App',
+   created() {
+      try {
+        document.body.removeChild(document.getElementById('appLoading'))
+        setTimeout(function() {
+          document.getElementById('app').style.display = 'block';
+        }, 500)
+      } catch (e) {
+
+      }
+    },
   components: {
     Myhead,
     stockcard,
     Myfooter,
-    // stockInProf
   }
 }
 </script>
@@ -29,6 +38,5 @@ export default {
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  /* margin-top: 10px; */
 }
 </style>

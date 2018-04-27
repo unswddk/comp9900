@@ -3,14 +3,14 @@
     <Card class='protfio'>
                     <span slot="title"> <b> My Portfolios </b></span>
             <Button slot="title" class="addBtn" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button>
-            <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" style="dispaly:inline-block">
+            <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" class="titleClass">
                 <FormItem prop="title">
                         <Input type="text" v-model="formInline.title" placeholder="Title">
                         <Button type="ghost"  icon="checkmark" slot="append" @click="createPrf()"></Button>
                         </Input>
                     </FormItem>
             </Form>
-            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro)"><a v-bind:class="{ active: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
+            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro)"><a v-bind:class="{ act: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
             <div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
                 <Select v-model="stockCode" filterable class="section" @input="addStock(p)" size="small">
              <Option v-for="item in stockList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
@@ -175,13 +175,11 @@ export default {
         }
       });
     },
-
-    //delete P
     deleteProf(p) {
       if (p.title == "default") {
         this.$Message.error("can not delete the default one");
       } else {
-        let a = this.profList.filter(element => element.title !== p);
+        let a = this.profList.filter(element => element.title !== p.title);
         this.profList = a;
         const p2 = {
           email: localStorage.mail,
@@ -191,10 +189,10 @@ export default {
           .post("http://localhost:3000/createPf", JSON.stringify(p2))
           .then(
             response => {
-              console.log(response);
+            //   console.log(response);
             },
             response => {
-              console.log(response);
+            //   console.log(response);
             }
           );
       }
@@ -292,11 +290,15 @@ tr:hover {
 a {
   color: #000;
 }
-.active {
+.act {
   /* border: red 1px solid; */
   background: rgb(79, 118, 202);
   color: white;
   /* width: 100%; */
+}
+.titleClass{
+    display: block;
+    width: 60%;
 }
 .section {
   width: 40%;

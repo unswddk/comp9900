@@ -15,7 +15,6 @@ export default {
   },
   computed:{
  classObject:function(){
-     console.log(this.message.includes("-"));
     return {
       active: !this.message.includes("-"),
       redCol: this.message.includes("-")
