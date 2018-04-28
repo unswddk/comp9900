@@ -180,6 +180,11 @@ export default {
     };
   },
   components: { sector },
+  mounted: function() {
+    EventBus.$on("successChangePwd",data=>{
+      this.username = data;
+    });
+  },
   methods: {
     signup() {
       this.$refs.formValidate.validate(valid => {
@@ -286,6 +291,7 @@ export default {
     logout() {
       this.$store.dispatch("clearUser");
       localStorage.removeItem("mail");
+      localStorage.removeItem("username");
       localStorage.removeItem("token");
       this.username = "";
       EventBus.$emit("logout", this.username);
@@ -327,8 +333,8 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.sector{
+.sector {
   background: #fafafa;
-  bottom:0;
+  bottom: 0;
 }
 </style>

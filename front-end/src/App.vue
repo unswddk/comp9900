@@ -17,16 +17,6 @@ Vue.use(Vuex)
 Vue.use(VueResource);
 export default {
   name: 'App',
-   created() {
-      try {
-        document.body.removeChild(document.getElementById('appLoading'))
-        setTimeout(function() {
-          document.getElementById('app').style.display = 'block';
-        }, 500)
-      } catch (e) {
-
-      }
-    },
   components: {
     Myhead,
     stockcard,

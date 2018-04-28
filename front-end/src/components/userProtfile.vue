@@ -277,6 +277,7 @@ th,
 td {
   padding: 8px;
   text-align: center;
+  width: 80px;
   border-bottom: 1px solid #ddd;
 }
 

@@ -17,6 +17,12 @@
     </Col>
     </Row>
     <hr>
+     <Row>
+  <Col  offset='2' span='20'> 
+           <userProtfile v-if="user"></userProtfile>
+        </Col>
+    </Row>
+    <br>
     <Row>
       <Col offset='2' span='20'>
     <Card class="card" >
@@ -24,11 +30,6 @@
       <ve-candle class="chart" :data='chartData' :settings='chartSettings'></ve-candle>
     </Card>
   </Col>
-    </Row>
-     <Row>
-  <Col  offset='2' span='20'> 
-           <userProtfile v-if="user"></userProtfile>
-        </Col>
     </Row>
 <br>
     <Row>
@@ -217,11 +218,9 @@ export default {
       this.active = data;
     });
     EventBus.$on("login", username => {
-      console.log("login");
       this.user = true;
     }),
-      EventBus.$on("logout", code => {
-        console.log("logout");
+    EventBus.$on("logout", code => {
         this.user = false;
       });
     this.$http
