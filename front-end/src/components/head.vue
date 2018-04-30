@@ -203,7 +203,7 @@ export default {
             ]
           };
           this.$http
-            .post("http://localhost:3000/user", JSON.stringify(user))
+            .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/user", JSON.stringify(user))
             .then(
               response => {
                 console.log(response.body);
@@ -234,7 +234,7 @@ export default {
       this.$refs.loginformValidate.validate(valid => {
         if (valid) {
           this.$http
-            .get("http://localhost:3000/login", {
+            .get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/login", {
               params: {
                 email: this.loginformValidate.mail,
                 password: this.loginformValidate.password
@@ -272,7 +272,7 @@ export default {
     changePswd() {
       this.$http
         .post(
-          "http://localhost:3000/changePswd",
+          "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/changePswd",
           JSON.stringify({
             email: this.loginformValidate.mail
           })

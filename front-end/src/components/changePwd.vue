@@ -47,7 +47,7 @@ export default {
         if (valid) {
           this.$http
             .post(
-              "http://localhost:3000/changePwd",
+              "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/changePwd",
               JSON.stringify({
                 token: this.$route.params.id,
                 password: this.formInline.password

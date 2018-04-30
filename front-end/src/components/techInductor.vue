@@ -57,7 +57,7 @@ export default {
   methods: {
   getTechIntor:function(){
     this.$http
-      .get("http://localhost:3000/getTechIndicators", {
+      .get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getTechIndicators", {
         params: { code: this.message }
       })
       .then(

@@ -78,7 +78,7 @@ export default {
   created: function() {
     this.$http
       .post(
-        "http://localhost:3000/getPf",
+        "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getPf",
         JSON.stringify({ email: localStorage.mail })
       )
       .then(
@@ -92,7 +92,7 @@ export default {
           console.log(response);
         }
       ),
-      this.$http.get("http://localhost:3000/getCompanyInfo").then(
+      this.$http.get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getCompanyInfo").then(
         response => {
           this.stockList = response.data.company;
         },
@@ -114,7 +114,7 @@ export default {
             prof: this.profList
           };
           this.$http
-            .post("http://localhost:3000/createPf", JSON.stringify(p))
+            .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/createPf", JSON.stringify(p))
             .then(
               response => {
                 console.log(response.data);
@@ -130,7 +130,7 @@ export default {
     getProf() {
       this.$http
         .post(
-          "http://localhost:3000/getPf",
+          "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getPf",
           JSON.stringify({ email: localStorage.mail })
         )
         .then(
@@ -161,7 +161,7 @@ export default {
             prof: this.profList
           };
           this.$http
-            .post("http://localhost:3000/createPf", JSON.stringify(p))
+            .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/createPf", JSON.stringify(p))
             .then(
               response => {
                 console.log(response.data);
@@ -186,7 +186,7 @@ export default {
           prof: this.profList
         };
         this.$http
-          .post("http://localhost:3000/createPf", JSON.stringify(p2))
+          .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/createPf", JSON.stringify(p2))
           .then(
             response => {
             //   console.log(response);
@@ -231,7 +231,7 @@ export default {
         prof: this.profList
       };
       this.$http
-        .post("http://localhost:3000/createPf", JSON.stringify(p2))
+        .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/createPf", JSON.stringify(p2))
         .then(
           response => {
             console.log(response);
@@ -254,7 +254,7 @@ export default {
         prof: this.profList
       };
       this.$http
-        .post("http://localhost:3000/createPf", JSON.stringify(p1))
+        .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/createPf", JSON.stringify(p1))
         .then(
           response => {
             console.log(response.data);

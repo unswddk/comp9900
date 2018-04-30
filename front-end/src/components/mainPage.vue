@@ -187,7 +187,7 @@ export default {
     techInductor
   },
   created: function() {
-    this.$http.get("http://localhost:3000/getCompanyInfo").then(
+    this.$http.get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getCompanyInfo").then(
       response => {
         this.cityList = response.data.company;
         this.getCityList();
@@ -225,7 +225,7 @@ export default {
       });
     this.$http
       .post(
-        "http://localhost:3000/getPf",
+        "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getPf",
         JSON.stringify({ email: localStorage.mail })
       )
       .then(response => {
