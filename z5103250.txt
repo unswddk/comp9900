@@ -1,3 +1,6 @@
+week2:
+Group was formed successfully and got to know eachother and also started writing the proposal. 
+
 Week 3:
 Researching and familiarising myself with the existing stock portfolio management systems to come up with new ideas for our own project and writing the proposal.
 
@@ -6,3 +9,15 @@ Reading and researching about machine learning techniques to get ideas on which 
 
 week 5:
 more research on machine learning techniques and also trying to understand our own data and perform some preprocessing tasks and labeling data.
+
+week 6:
+Midterm break
+
+week 7:
+Trying to devise some financial indexes for the recommendation part of the website.
+
+week 8:
+Testing the website to fix the possible bugs.
+
+week 9:
+Started writting the final report.
