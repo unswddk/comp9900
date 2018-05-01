@@ -284,11 +284,11 @@ export default {
         .then(
           response => {
             // console.log(response);
-            this.$Message.success(response.body);
+            this.$Message.success("Success Send Email");
           },
           response => {
             // console.log(response);
-            this.$Message.error(response);
+            this.$Message.error("Email sending failed");
           }
         );
     },
