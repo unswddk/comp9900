@@ -181,7 +181,7 @@ export default {
   },
   components: { sector },
   mounted: function() {
-    EventBus.$on("successChangePwd",data=>{
+    EventBus.$on("successChangePwd", data => {
       this.username = data;
     });
   },
@@ -203,10 +203,13 @@ export default {
             ]
           };
           this.$http
-            .post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/user", JSON.stringify(user))
+            .post(
+              "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/user",
+              JSON.stringify(user)
+            )
             .then(
               response => {
-                console.log(response.body);
+                // console.log(response.body);
                 if (response.status == 200) {
                   this.$store.commit("isLogin", response.data);
                   localStorage.username = response.data.username;
@@ -234,15 +237,16 @@ export default {
       this.$refs.loginformValidate.validate(valid => {
         if (valid) {
           this.$http
-            .get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/login", {
-              params: {
+            .post(
+              "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/login",
+              JSON.stringify({
                 email: this.loginformValidate.mail,
                 password: this.loginformValidate.password
-              }
-            })
+              })
+            )
             .then(
               response => {
-                console.log(response.data);
+                // console.log(response.data);
                 if (response.status == 200) {
                   // this.$store.commit("isLogin", response.data);
                   localStorage.username = response.body.data.Item.username;
@@ -279,11 +283,11 @@ export default {
         )
         .then(
           response => {
-            console.log(response);
+            // console.log(response);
             this.$Message.success(response.body);
           },
           response => {
-            console.log(response);
+            // console.log(response);
             this.$Message.error(response);
           }
         );
