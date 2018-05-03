@@ -15,7 +15,7 @@
         <Option v-for="item in cityList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
     </Select>
     </Col>
-    <Col offset="2" span="3">
+    <Col offset="1" span="4">
     <predition v-bind:message="model10"></predition>
     </Col>
     </Row>

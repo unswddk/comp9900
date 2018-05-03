@@ -1,10 +1,10 @@
 <template>
 <div class="box">
   <div class="inner">
-    <span>FCL Monsters</span>
+    <span>FCLM</span>
   </div>
   <div class="inner">
-    <span>FCL Monsters</span>
+    <span>FCLM</span>
   </div>
 </div>
 </template>
@@ -24,9 +24,9 @@ export default {
 }
 
 .box .inner {
-	width: 32px;
-	height: 16px;
-	line-height: 16px;
+	width: 13.49999999999px;
+	height: 40px;
+	line-height: 20px;
 	font-size: 0.64em;
 	font-family: sans-serif;
 	font-weight: bold;
@@ -38,33 +38,35 @@ export default {
 	background-color: black;
 	color: antiquewhite;
 	transform-origin: left;
-	transform: perspective(48px) rotateY(-67.3deg);
+	transform: perspective(48px) rotateY(-32.3deg);
 }
 
 .box .inner:last-child {
+	margin-top: 20px;
 	background-color: black;
 	color: antiquewhite;
 	transform-origin: right;
-	transform: perspective(48px) rotateY(67.3deg);
+	transform: perspective(48px) rotateY(32.3deg);
 }
 
 .box .inner span {
+	bottom: 0;
 	position: absolute;
 	animation: marquee 5s linear infinite;
 }
 
 .box .inner:first-child span {
 	animation-delay: 5s;
-	left: -100%;
+	right: -100%;
 }
 
 @keyframes marquee {
 	from {
-		left: 100%;
+		right: 100%;
 	}
 
 	to {
-		left: -100%;
+		right: -100%;
 	}
 }
 </style>

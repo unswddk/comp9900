@@ -161,8 +161,7 @@ export default {
 }
 .load {
   position: absolute;
-  width: ch;
-  /* background: #000; */
+  width: 7ch;
   height: 32px;
   text-align: left;
   line-height: 32px;

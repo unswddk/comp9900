@@ -322,12 +322,10 @@ export default {
 .logo {
   float: left;
   width: 80px;
-  margin-top: 25px;
+  margin-top: 8px;
   margin-left: 40px;
-  height: 20px;
-  /* font-size: 30px; */
-  /* font-family: cursive; */
-  color: rgb(79, 118, 202);
+  height: 10px;
+  /* color: rgb(79, 118, 202); */
 }
 .icon-login {
   margin-top: 19px;

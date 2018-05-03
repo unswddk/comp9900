@@ -78,7 +78,7 @@ export default {
   created: function() {
     this.$http
       .post(
-        "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getP",
+        "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getPf",
         JSON.stringify({ email: localStorage.mail })
       )
       .then(
