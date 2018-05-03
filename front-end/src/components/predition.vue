@@ -36,9 +36,9 @@ export default {
   props: ["message"],
   data() {
     return {
-      value: "prediting . . .",
+      value: "predciting . . .",
       // value:'up',
-      up: true,
+      up: false,
       down: false,
       result: ""
     };
@@ -46,6 +46,9 @@ export default {
   computed: {},
   watch: {
     message: function() {
+      this.value="predciting . . .";
+      this.up=false;
+      this.down=false;
       this.$http
         .get(
           "https://e8k50ti6ka.execute-api.us-west-1.amazonaws.com/dev/?code=" +
@@ -53,7 +56,16 @@ export default {
         )
         .then(
           response => {
-            console.log(response.data);
+            console.log(response.body);
+            if(response.body.message=="up"){
+              this.up=true;
+              this.down=false;
+              this.value="result is: up"
+            }else{
+              this.down = true;
+              this.up=false;
+              this.value="result is: down"
+            }
           },
           response => {}
         );
@@ -82,7 +94,7 @@ export default {
   background-color: black;
   border-radius: 50px;
   box-shadow: inset -4px 2px 0px 0px rgb(146, 144, 144);
-  animation: headAnim 1.5s infinite alternate;
+  animation: headAnim 2.5s infinite alternate;
   animation-timing-function: ease-out;
 }
 .body {
@@ -93,7 +105,7 @@ export default {
   background-color: black;
   border-radius: 50px/25px;
   box-shadow: inset -5px 2px 0px 0px rgb(146, 144, 144);
-  animation: bodyAnim 1.5s infinite alternate;
+  animation: bodyAnim 2.5s infinite alternate;
   animation-timing-function: ease-out;
 }
 @keyframes headAnim {
@@ -144,12 +156,13 @@ export default {
   top: 75%;
   left: 16%;
   z-index: 1;
-  animation: bodyAnim 1.5s infinite alternate;
+  animation: bodyAnim 2.5s infinite alternate;
   animation-timing-function: ease-out;
 }
 .load {
   position: absolute;
-  width: 7ch;
+  width: ch;
+  /* background: #000; */
   height: 32px;
   text-align: left;
   line-height: 32px;
@@ -167,7 +180,7 @@ export default {
   display: block;
   overflow: hidden;
 }
-@-webkit-keyframes fontAnim {
+@keyframes fontAnim {
   0% {
     width: 7ch;
   }
