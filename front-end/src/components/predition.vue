@@ -31,33 +31,35 @@
   </div>
 </template>
 <script>
-
 export default {
   name: "predition",
-  props:["message"],
+  props: ["message"],
   data() {
     return {
-        value:"prediting . . .",
-        // value:'up',
-        up:true,
-        down:false,
-        result:'',
+      value: "prediting . . .",
+      // value:'up',
+      up: true,
+      down: false,
+      result: ""
     };
   },
-  computed:{},
-  watch:{
-    message:function(){
-      this.$http.get("https://e8k50ti6ka.execute-api.us-west-1.amazonaws.com/dev/?code="+this.message).then(
-        response=>{
-          console.log(response.data);
-        },
-        response=>{}
-      )
+  computed: {},
+  watch: {
+    message: function() {
+      this.$http
+        .get(
+          "https://e8k50ti6ka.execute-api.us-west-1.amazonaws.com/dev/?code=" +
+            this.message
+        )
+        .then(
+          response => {
+            console.log(response.data);
+          },
+          response => {}
+        );
     }
-    }
+  }
 };
-
-
 </script>
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Julius+Sans+One);
@@ -80,7 +82,7 @@ export default {
   background-color: black;
   border-radius: 50px;
   box-shadow: inset -4px 2px 0px 0px rgb(146, 144, 144);
-  animation: headAnim 1.5s infinite alternate; 
+  animation: headAnim 1.5s infinite alternate;
   animation-timing-function: ease-out;
 }
 .body {
@@ -153,7 +155,7 @@ export default {
   line-height: 32px;
   margin: -15px auto;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Julius Sans One', sans-serif;
+  font-family: "Julius Sans One", sans-serif;
   font-size: 20px;
   font-weight: 400;
   color: black;
@@ -218,8 +220,8 @@ export default {
   left: 5px;
   top: 0;
 }
-svg{
+svg {
   margin: 7px 7px;
-  transform: rotate(-45deg)
+  transform: rotate(-45deg);
 }
 </style>
