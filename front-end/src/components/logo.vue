@@ -4,7 +4,7 @@
     <span>FCL Monsters</span>
   </div>
   <div class="inner">
-    <span>FCL monsters</span>
+    <span>FCL Monsters</span>
   </div>
 </div>
 </template>

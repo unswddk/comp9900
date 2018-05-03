@@ -16,7 +16,7 @@
     </Select>
     </Col>
     <Col offset="2" span="3">
-    <predition></predition>
+    <predition v-bind:message="model10"></predition>
     </Col>
     </Row>
     <hr>

@@ -322,7 +322,7 @@ export default {
 .logo {
   float: left;
   width: 80px;
-  margin-top: 30px;
+  margin-top: 25px;
   margin-left: 40px;
   height: 20px;
   /* font-size: 30px; */
