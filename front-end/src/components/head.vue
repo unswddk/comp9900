@@ -1,9 +1,11 @@
 <template>
 <div>
 <div class="header-container">
-  <span class="logo"><b><strong>
+ <logo class="logo"></logo>
+
+  <!-- <span class="logo"><b><strong>
 {{ massage }}</strong></b>
-  </span>
+  </span> -->
 <!-- <Icon type="plus"></Icon> -->
 <ButtonGroup size="large" shape="circle" class="icon-login" v-if="!username">
 <Button  type="text"  @click="modal2 = true" ><span style='color:rgb(89, 126, 206)'>Sign In</span></Button>
@@ -16,7 +18,7 @@
  <Modal
         v-model="modal2"
         title="Login"
-        okText="Summit"
+        okText="Submit"
         cancelText="Cancel"
         @on-ok="login"
         @on-cancel="handleLoginReset">
@@ -33,7 +35,7 @@
 <Modal
         v-model="modal1"
         title="Fill this form to create a new an Account"
-        okText="Summbit"
+        okText="Submit"
         cancelText="Cancel"
         @on-ok="signup"
         @on-cancel="handleReset">
@@ -69,6 +71,7 @@
 <script>
 import { EventBus } from "./event-bus.js";
 import sector from "./sector.vue";
+import logo from "./logo.vue"
 // import "vue-awesome/icons";
 export default {
   name: "Myheader",
@@ -93,7 +96,7 @@ export default {
       }
     };
     return {
-      massage: "FLCMansters",
+      massage: "FCLMonsters",
       value1: "",
       modal1: false,
       modal2: false,
@@ -179,7 +182,7 @@ export default {
       }
     };
   },
-  components: { sector },
+  components: { sector,logo },
   mounted: function() {
     EventBus.$on("successChangePwd", data => {
       this.username = data;
@@ -319,11 +322,11 @@ export default {
 .logo {
   float: left;
   width: 80px;
-  margin-top: 10px;
+  margin-top: 30px;
   margin-left: 40px;
   height: 20px;
-  font-size: 30px;
-  font-family: cursive;
+  /* font-size: 30px; */
+  /* font-family: cursive; */
   color: rgb(79, 118, 202);
 }
 .icon-login {

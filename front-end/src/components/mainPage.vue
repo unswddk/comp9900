@@ -1,7 +1,7 @@
 <template>
 <div>
   <Row class="firstRow" >
-    <Col offset='4' class="col1" span="16">
+    <Col offset='4' class="col1" span="10">
     <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button></Tooltip></p>
     <p><Icon type="code"></Icon> {{ model10 }} </p>
     <p><label> {{Number(stockInfo['4. close']).toFixed(2)}}</label><span class="change"><changeInfo v-bind:message="change"></changeInfo>(<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
@@ -14,6 +14,9 @@
      <Select v-model="model10" filterable class="section" @input="chartQuote" size="large">
         <Option v-for="item in cityList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
     </Select>
+    </Col>
+    <Col offset="2" span="3">
+    <predition></predition>
     </Col>
     </Row>
     <hr>
@@ -39,7 +42,7 @@
       <Col  span='10' style="margin-left:7px">
        <Card>
          <p slot="title">
-         Stock Informationo Summary</p>
+         Stock Information Summary</p>
          <li>{{companyName }}</li>
           <li> Open<span  class="summary-number">{{ stockInfo['1. open']  }}</span></li>
           <li> High<span class="summary-number">{{ stockInfo['2. high']  }}</span></li>
@@ -89,6 +92,7 @@ import Trend from "vuetrend";
 import { EventBus } from "./event-bus.js";
 import userProtfile from "./userProtfile.vue";
 import techInductor from "./techInductor.vue";
+import predition from "./predition.vue"
 Vue.use(VCharts);
 Vue.use(Trend);
 Vue.use(iView);
@@ -162,7 +166,7 @@ export default {
       value1: "1",
       peer: [],
       chartData: {
-        columns: ["日期", "open", "close", "lowest", "highest", "vol"],
+        columns: ["date", "open", "close", "lowest", "highest", "vol"],
         rows: this.newRows
       },
       chartSettings: {}
@@ -184,7 +188,8 @@ export default {
   components: {
     userProtfile,
     changeInfo,
-    techInductor
+    techInductor,
+    predition
   },
   created: function() {
     this.$http.get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getCompanyInfo").then(
@@ -256,7 +261,7 @@ export default {
             Number(response.data["Time Series (Daily)"][keys[i]]["1. open"])
           );
           this.newRows.push({
-            日期: keys[i],
+            date: keys[i],
             open: Number(
               response.data["Time Series (Daily)"][keys[i]]["1. open"]
             ),
@@ -275,17 +280,17 @@ export default {
           });
         }
         this.chartData = {
-          columns: ["日期", "open", "close", "lowest", "highest", "vol"],
+          columns: ["date", "open", "close", "lowest", "highest", "vol"],
           rows: this.newRows
         };
         this.chartSettings = {
           showMA: true,
           showVol: true,
           labelMap: {
-            MA5: "ma5"
+            MA5: "MA5"
           },
           legendName: {
-            日K: "day k"
+            '日K': 'day k'
           },
           showDataZoom: true
         };
@@ -337,7 +342,7 @@ export default {
               showMA: true,
               showVol: true,
               labelMap: {
-                MA5: "ma5"
+                MA5: "MA5"
               },
               legendName: {
                 日K: "day k"
