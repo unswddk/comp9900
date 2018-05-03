@@ -140,7 +140,7 @@ def preprocess_data(stock_code):
     #stock_code = "BFR"
     
     #url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol="+stock_code+"&outputsize=full&apikey=QQW8ENTIJEEQ0S23&datatype=csv"
-    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_code+"&outputsize=full&apikey=QQW8ENTIJEEQ0S23&datatype=csv"
+    url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_code+".ax&outputsize=full&apikey=QQW8ENTIJEEQ0S23&datatype=csv"
     file_name = "daily_adjusted_" + stock_code + ".csv"
     r = requests.get(url) 
     with open(file_name, "wb") as file:  # 文件名通过解析url地址得到
@@ -155,64 +155,78 @@ def preprocess_data(stock_code):
     #print(length)
     sortedlist = sorted(reader, key = lambda x: x[0])
     length = len(sortedlist)
-    csv_writer = csv.writer(out,dialect='excel')
-    
-    n = 0
-    previous_adjusted_closing_price = 0
-    yesterday_instance = []
-    for line in sortedlist:
-        #print(n)
-        line.pop()
-        #line.pop()
-        #line.pop()
-        if n == 0:
-            #previous_adjusted_closing_price = float(line[5])
-            previous_adjusted_closing_price = float(line[4])
-            #csv_writer.writerow(line)
-            n += 1
-        else:
-            if line[0] == 'timestamp':
+    if length == 3:
+        return "Wrong Code"
+    else:
+        csv_writer = csv.writer(out,dialect='excel')
+        
+        n = 0
+        previous_adjusted_closing_price = 0
+        yesterday_instance = []
+        for line in sortedlist:
+            #print(n)
+            line.pop()
+            #line.pop()
+            #line.pop()
+            if n == 0:
+                #previous_adjusted_closing_price = float(line[5])
+                previous_adjusted_closing_price = float(line[4])
+                #csv_writer.writerow(line)
                 n += 1
-                continue
-            elif n == length - 2:
-                for x in line:
-                    try:
-                        m = float(x)
-                    except Exception:
-                        yesterday_instance.append(x)
-                    else:
-                        yesterday_instance.append(float(x))
             else:
-                #if float(line[5]) - previous_adjusted_closing_price > 0:
-                if float(line[4]) - previous_adjusted_closing_price > 0:
-                    line.append('up')
-                    csv_writer.writerow(line)
-                    #previous_adjusted_closing_price = float(line[5])
-                    previous_adjusted_closing_price = float(line[4])
+                if line[0] == 'timestamp':
                     n += 1
+                    continue
+                elif n == length - 2:
+                    for x in line:
+                        try:
+                            m = float(x)
+                        except Exception:
+                            yesterday_instance.append(x)
+                        else:
+                            yesterday_instance.append(float(x))
                 else:
-                    line.append('down')
-                    csv_writer.writerow(line)
-                    #previous_adjusted_closing_price = float(line[5])
-                    previous_adjusted_closing_price = float(line[4])
-                    n += 1
-    
-          
-    file.close()
-    out.close()
-    return yesterday_instance
+                    #if float(line[5]) - previous_adjusted_closing_price > 0:
+                    if float(line[4]) - previous_adjusted_closing_price > 0:
+                        line.append('up')
+                        csv_writer.writerow(line)
+                        #previous_adjusted_closing_price = float(line[5])
+                        previous_adjusted_closing_price = float(line[4])
+                        n += 1
+                    else:
+                        line.append('down')
+                        csv_writer.writerow(line)
+                        #previous_adjusted_closing_price = float(line[5])
+                        previous_adjusted_closing_price = float(line[4])
+                        n += 1
+        
+              
+        file.close()
+        out.close()
+        if n >= 100:
+            return yesterday_instance
+        else:
+            return False
     
 #def main(stock_code):
 def get_prediction(code):
     stock_code = code
     yesterday_instance = preprocess_data(stock_code)
-    print(yesterday_instance)
-    split = 0.67
     
-    predict_file_name = stock_code + '.csv'
-    predictFor(1, predict_file_name, stock_code, split)
-    prediction = predictForTomorrow(1, predict_file_name, yesterday_instance, 1)
-    
-    return prediction
+    if yesterday_instance == "Wrong Code":
+        print("Wrong Stock Code!")
+        return False
+    elif yesterday_instance != False:
+        print(yesterday_instance)
+        split = 0.67
+        
+        predict_file_name = stock_code + '.csv'
+        predictFor(1, predict_file_name, stock_code, split)
+        prediction = predictForTomorrow(1, predict_file_name, yesterday_instance, 1)
+        
+        return prediction
+    else:
+        print("Not enough historical stock information to predict!")
+        return False
 
-get_prediction("WFC")
+get_prediction("1PG")
