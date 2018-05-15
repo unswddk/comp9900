@@ -21,3 +21,9 @@ Managed trello and did preprocess data part.
 
 Week 9
 Managed trello and basiclly finished knn stock prediction part.
+
+Week 10
+Fixed some bugs in knn stock prediction part, and connected to front-end.
+
+Week 11
+Tested the website and found some bugs and these bugs has been posted on trello.
