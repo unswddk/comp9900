@@ -2,9 +2,15 @@
 <div>
   <Row class="firstRow" >
     <Col offset='4' class="col1" span="10">
-    <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button></Tooltip></p>
+    <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button>
+    
+    </Tooltip>
+    <addItemButton  v-if="showSecond" v-bind:code="model10" v-bind:amount="stockAmount" v-bind:price="stockInfo['4. close']"></addItemButton>
+    
+    <InputNumber  v-if="isSeller" @on-blur="showSecond = true" :max="1000000" :min="1" v-model="stockAmount"></InputNumber>
+    </p> 
     <p><Icon type="code"></Icon> {{ model10 }} </p>
-    <p><label> {{Number(stockInfo['4. close']).toFixed(2)}}</label><span class="change"><changeInfo v-bind:message="change"></changeInfo>(<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
+    <p><label> {{Number(stockInfo['4. close']).toFixed(2)}} </label><span class="change"><changeInfo v-bind:message="change"></changeInfo> (<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
     </p>
     <p><Icon type="ios-world-outline"></Icon>{{group}}</p>
     <p>Peer:</p>
@@ -19,7 +25,8 @@
     <predition v-bind:message="model10"></predition>
     </Col>
     </Row>
-    <hr>
+    <hr class="fullWidth-hr">
+
      <Row>
   <Col  offset='2' span='20'> 
            <userProtfile v-if="user"></userProtfile>
@@ -31,11 +38,26 @@
     <Card class="card" >
       <p slot="title"> Chart</p>
       <ve-candle class="chart" :data='chartData' :settings='chartSettings'></ve-candle>
+  <div class="stockInfoCard">
+        <h2>
+         Stock Information Summary</h2>
+         <li>{{companyName }}</li>
+          <li> Open<span  class="summary-number">{{ stockInfo['1. open']  }}</span></li>
+          <li> High<span class="summary-number">{{ stockInfo['2. high']  }}</span></li>
+          <li> Low<span class="summary-number">{{ stockInfo['3. low']  }}</span></li>
+          <li> Close<span class="summary-number">{{ stockInfo['4. close']  }}</span></li>
+          <li> Volume<span class="summary-number">{{ stockInfo['5. volume']  }}</span></li>
+          <li> Change<span class="summary-number"><changeInfo v-bind:message="change"></changeInfo></span></li>
+          <li> Change(%)<span class="summary-number"><changeInfo v-bind:message="changePg"></changeInfo></span></li>
+  </div>
+    <div class="stockInfoCard">
+    <techInductor class="techInductor" v-bind:message="model10"></techInductor>
+    </div>
     </Card>
   </Col>
     </Row>
-<br>
-    <Row>
+<br><br><br><hr class="middle-hr">
+    <!-- <Row>
       <Col offset='2' span='10'>
         <techInductor class="techInductor" v-bind:message="model10"></techInductor>
       </Col>
@@ -51,40 +73,57 @@
           <li> Volume<span class="summary-number">{{ stockInfo['5. volume']  }}</span></li>
           <li> Change<span class="summary-number"><changeInfo v-bind:message="change"></changeInfo></span></li>
           <li> Change(%)<span class="summary-number"><changeInfo v-bind:message="changePg"></changeInfo></span></li>
+          
+          
           </Card>
       </Col>
-    </Row>
+    </Row> -->
+
+ <!-- peerInfo start-->
     <Row>
-      <Col offset='2' span='20'>
-        Peer Info
-         <Table :columns="columns1" :data="peerInfo"></Table>
+        <Col offset='2' span='20'>
+      <Carousel v-model="value0">
+          <CarouselItem v-for="p in peer" :key="p.code" >
+              <peerCard v-bind:message="p.code"></peerCard>
+          </CarouselItem>
+      </Carousel>
+        </Col>
+    </Row>
+    <!-- <Row></Row> -->
+ <!-- peerInfo end-->
+
+ <!-- blockChain part start-->
+<br><br><br><hr class="middle-hr">
+    <Row>
+      <br><br>
+      <Col span="22" offset="2">
+          <coinsInfoCard style="display: inline-block;"></coinsInfoCard>
+          <!-- <metamask style="display: inline-block;"></metamask>           -->
+          <tradeBoard></tradeBoard>
       </Col>
     </Row>
-      <br>
-    <Row>
-      <Col offset='2' span='20'>
-                <Card>
-                 <p slot="title">News</p>
-        <ul>
-            <li v-for="item in news" >
-                <a :href="item.url" target="_blank">
-                  <p class="news-title">{{ item.headline }}</p><br>{{item.summary}}</a>
-                  <br>
-                   <label style="float:right">{{ item.datetime }}</label>
-                <br>
-                <br>
-            </li>  
-             <br>
-        </ul>
-          </Card>
+
+ <!-- blockChain part end-->
+
+
+ <!-- News part start-->
+ <br><br><br><hr class="middle-hr">
+     <Row>
+      <Col offset='2' span='22'>
+      <div>
+      <newsCard v-for="n in news" :key="n.index" v-bind:message="n" style="vertical-align: top;"></newsCard>
+      </div>
       </Col>
     </Row> 
+ <!-- News part end-->
+
      <BackTop></BackTop>
   </div>
 </template>
 <script>
 import Vue from "vue";
 import stockcardVue from "./stockcard.vue";
+import coinsInfoCard from "./coinsInfoCard.vue"
 import VCharts from "v-charts";
 import iView from "iview";
 import changeInfo from "./change";
@@ -93,6 +132,13 @@ import { EventBus } from "./event-bus.js";
 import userProtfile from "./userProtfile.vue";
 import techInductor from "./techInductor.vue";
 import predition from "./predition.vue"
+import metamask from "./metamask.vue"
+import coinsInfo from "./coins.vue"
+import tradeBoard from "./trading.vue"
+import peerCard from "./peerCard.vue"
+import newsCard from "./newsCard.vue"
+import addItemButton from "./addItemButton.vue"
+// import tradeBoard from "./trading.vue"
 Vue.use(VCharts);
 Vue.use(Trend);
 Vue.use(iView);
@@ -102,6 +148,7 @@ export default {
     return {
       user: localStorage.mail,
       stockData: [],
+      value0:0,
       code: "",
       cityList: [],
       model10: "MOQ",
@@ -109,51 +156,9 @@ export default {
       group: "Software & Services",
       newRows: [],
       peerInfo: [],
+      showSecond:false,
       username: "",
       news: [],
-      columns1: [
-        {
-          title: "Company",
-          key: "name",
-          fixed: "left",
-          width: 100
-        },
-        {
-          title: "Open",
-          key: "1. open",
-          width: 200
-        },
-        {
-          title: "High",
-          key: "2. high",
-          width: 200
-        },
-        {
-          title: "Low",
-          key: "3. low",
-          width: 200
-        },
-        {
-          title: "Close",
-          key: "4. close",
-          width: 200
-        },
-        {
-          title: "Volume",
-          key: "5. volume",
-          width: 200
-        },
-        {
-          title: "Change",
-          key: "change",
-          width: 200
-        },
-        {
-          title: "Change(%)",
-          key: "changePres",
-          width: 200
-        }
-      ],
       stockInfo: {
         "1. open": "",
         "2. high": "",
@@ -163,6 +168,7 @@ export default {
       },
       prortFolio: [],
       active: true,
+      stockAmount:1000,
       value1: "1",
       peer: [],
       chartData: {
@@ -177,19 +183,42 @@ export default {
       return (
         "" +
         Number(this.stockInfo["4. close"] - this.stockInfo["1. open"]).toFixed(
-          2
+          5
         )
       );
     },
     changePg: function() {
-      return Number(this.change / this.stockInfo["1. open"]).toFixed(2) + "%";
-    }
+      return Number(this.change / this.stockInfo["1. open"]).toFixed(5) + "%";
+    },
+    isSeller(){
+                if(this.$store.state.info.isUser){
+                  return this.$store.state.userInfo.some(element => {
+                       return element.address === this.$store.state.web3.coinbase && element.role === 1;
+                   });
+                }
+                else{
+                    return false;
+                } 
+        }
   },
   components: {
     userProtfile,
     changeInfo,
     techInductor,
-    predition
+    predition,
+    coinsInfoCard,
+    metamask,
+    coinsInfo,
+    tradeBoard,
+    peerCard,
+    newsCard,
+    addItemButton
+  },
+  beforeCreate:function () {
+    console.log('registerWeb3 Action dispatched from cart-dapp.vue')
+    this.$store.dispatch('registerWeb3')
+    // this.$store.dispatch('getCoinInfoCall')
+    this.$store.dispatch('getContractInstance');
   },
   created: function() {
     this.$http.get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getCompanyInfo").then(
@@ -205,7 +234,7 @@ export default {
       }
     );
     this.$http
-      .get("https://api.iextrading.com/1.0/stock/market/news/last/5")
+      .get("https://api.iextrading.com/1.0/stock/market/news/last/3")
       .then(
         response => {
           this.news = [];
@@ -254,6 +283,8 @@ export default {
       .then(response => {
         // 响应成功回调
         let keys = Object.keys(response.data["Time Series (Daily)"]);
+        console.log(keys);
+        console.log(response.data["Time Series (Daily)"])
         this.stockInfo = response.data["Time Series (Daily)"][keys[0]];
         // this.stockData=[];
         for (var i = keys.length - 1; i > 0; i--) {
@@ -287,17 +318,18 @@ export default {
           showMA: true,
           showVol: true,
           labelMap: {
-            MA5: "MA5"
+            MA5: "MA5",
+            日K:"Day K"
           },
           legendName: {
-            '日K': 'day k'
+            '日K': 'Day K'
           },
           showDataZoom: true
         };
       });
   },
   methods: {
-    chartQuote: async function() {
+    chartQuote: function() {
       this.$http
         .get(
           "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
@@ -306,10 +338,11 @@ export default {
         )
         .then(
           response => {
+            console.log(response)
             this.newRows = [];
             let keys = Object.keys(response.data["Time Series (Daily)"]);
             this.stockInfo =
-              response.data["Time Series (Daily)"][keys[keys.length - 1]];
+              response.data["Time Series (Daily)"][keys[0]];
             this.stockData = [];
             for (var i = keys.length - 1; i > 0; i--) {
               this.stockData.push(
@@ -341,9 +374,11 @@ export default {
             this.chartSettings = {
               showMA: true,
               showVol: true,
-              labelMap: {
-                MA5: "MA5"
-              },
+              labelMap:
+               {
+               MA5: "MA5",
+               日K:"Day K"
+            },
               legendName: {
                 日K: "day k"
               },
@@ -354,7 +389,6 @@ export default {
         );
       this.getCityList();
       this.getPeer();
-      this.getPeerInfo();
     },
     getPeer: async function() {
       this.peer = [];
@@ -375,35 +409,6 @@ export default {
           this.group = this.cityList[i].group;
         }
       }
-    },
-    getPeerInfo: async function() {
-      this.peerInfo = [];
-      this.peer.forEach(element => {
-        this.$http
-          .get(
-            "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
-              element.code +
-              ".ax&apikey=D29LHM3HC6349901"
-          )
-          .then(
-            response => {
-              if (response.data["Time Series (Daily)"]) {
-                let keys = Object.keys(response.data["Time Series (Daily)"]);
-                let newInfo =
-                  response.data["Time Series (Daily)"][keys[keys.length - 1]];
-                newInfo.name = element.code;
-                newInfo.change = Number(
-                  newInfo["4. close"] - newInfo["1. open"]
-                ).toFixed(2);
-                newInfo.changePres = Number(
-                  newInfo.change / newInfo["1. open"]
-                ).toFixed(2);
-                this.peerInfo.push(newInfo);
-              }
-            },
-            response => {}
-          );
-      });
     },
     changePeer(pe) {
       this.model10 = pe.code;
@@ -491,9 +496,10 @@ p {
 .firstRow {
   margin-top: 100px;
 }
-li {
+/* li {
   display: block;
-}
+  border-bottom: rgb(107, 105, 105) solid 1px;
+} */
 .change {
   font-size: 20px;
 }
@@ -505,9 +511,15 @@ Button {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   border-top: rgb(92, 90, 92) solid 1px;
 }
-hr {
+.fullWidth-hr {
   height: 12px;
   border: 0;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+.middle-hr{
+  height: 12px;
+  border: 0;
+  margin: 0 8%;
   box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
 }
 .stockTrend {
@@ -524,4 +536,14 @@ hr {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.stockInfoCard{
+  margin-left:7px;
+  display:inline-block;
+  width:48%
+}
+.stockInfoCard >li{
+  display: block;
+  border-bottom: rgb(107, 105, 105) solid 1px;
+}
+
 </style>

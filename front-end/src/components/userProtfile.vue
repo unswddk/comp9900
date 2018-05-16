@@ -1,8 +1,9 @@
 <template>
 <div>
-    <Card class='protfio'>
-                    <span slot="title"> <b> My Portfolios </b></span>
-            <Button slot="title" class="addBtn" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button>
+  <Card>
+    <h3><span> <b> My Portfolios </b></span></h3>
+                    
+            <Button class="addBtn" slot="extra" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button>
             <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" class="titleClass">
                 <FormItem prop="title">
                         <Input type="text" v-model="formInline.title" placeholder="Title">
@@ -10,8 +11,22 @@
                         </Input>
                     </FormItem>
             </Form>
-            <Tag type="dot" closable v-for="pro in profList" :key="pro.title"  @on-close="deleteProf(pro)"><a v-bind:class="{ act: pro.isSeclected }" @click="trasToChild(pro)">{{ pro.title }}</a></Tag>
-            <div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
+            
+            
+<div class="proflioCard" v-for="pro in profList" :key="pro.title">
+  <div class="polaroid">
+    <a@click="deleteProf(pro)"><Icon type="close-circled"  class="closeIcon" @click="deleteProf(pro)"></Icon></a>
+  <!-- <Icon type="ios-close-outline" class="closeIcon" @click="deleteProf(pro)"></Icon> -->
+  <img src="../../static/image/1.png" alt="Norway" style="width:100%">
+
+    <div class="container" v-bind:class="{ act: pro.isSeclected }" @click="trasToChild(pro)" >
+      {{ pro.title }}
+    </div>
+  </div>
+</div>
+
+
+<div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
                 <Select v-model="stockCode" filterable class="section" @input="addStock(p)" size="small">
              <Option v-for="item in stockList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
              </Select>
@@ -29,7 +44,7 @@
   </table>
 <stockcard v-for="i in p.element" :key="i.index" v-bind:code="i" v-on:listenToChildeEvent="deleteCode"></stockcard> 
            </div>
-    </Card>
+            </Card>
 </div>
 </template>
 <script>
@@ -293,11 +308,14 @@ a {
 }
 .act {
   /* border: red 1px solid; */
-  background: rgb(79, 118, 202);
-  color: white;
+  /* background: rgb(79, 118, 202); */
+  color: rgb(79, 118, 202);
+  /* padding:0 0; */
+  /* height: 100%; */
   /* width: 100%; */
 }
 .titleClass{
+  margin-top: 20px;
     display: block;
     width: 60%;
 }
@@ -305,5 +323,28 @@ a {
   width: 40%;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+.proflioCard{
+  margin-top: 20px;
+  width: 220px;
+  display: inline-block;
+}
+.polaroid {
+  width: 90%;
+  /* margin-right: 10px; */
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+}
+.container {
+  text-align: center;
+  padding: 10px 20px;
+}
+.closeIcon{
+  position: absolute;
+  margin-left: 190px;
+  font-size: 20px;
+  margin-top: -8px;
+  color: silver;
 }
 </style>

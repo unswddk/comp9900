@@ -2,7 +2,6 @@
 <div class="circ">
   <div class="load">{{value}} </div>
   <div class="hands">
-    <!-- <div class=""></div> -->
     <div class="heart" v-if="up"></div>
     <svg v-if="down" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" width="20px" height="20px" style="enable-background:new 0 0 512 512;" xml:space="preserve">
@@ -23,7 +22,6 @@
 </svg>
   </div> 
   <div class="body">
-
   </div>
   <div class="head">
     <div class="eye" ></div>

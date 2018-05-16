@@ -1,9 +1,8 @@
 <template>
 <div>
-<Card>
     <loading :show="loading.show"></loading>
-        <p slot="title">Stock Technical Indicators</p>
-<ul v-if="!loading.show">
+        <h2>Stock Technical Indicators</h2>
+<div v-if="!loading.show" class="techIndutorCard">
     <li> Simple Moving Average (SMA): <span class="number">{{SMA?SMA:''}}</span></li>
     <li> Exponential Moving Average (EMA):  <span class="number">{{EMA?EMA:"" }}</span></li>
     <li> Moving Average Convergence/Divergence (MACD):  <span class="number">{{MACD}}</span></li>
@@ -14,8 +13,7 @@
     <li> Commodity Channel Index (CCI): <span class="number"> {{ CCI  }}</span></li>
     <li> Chaikin A/D Line:  <span class="number">{{ AD  }}</span></li>
     <li> On Balance Volume (OBV):  <span class="number">{{ OBV  }}</span></li>
-</ul>
-</Card>
+</div>
 </div>
 </template>
 <script>
@@ -79,11 +77,17 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .number{
     float: right;
 }
-li {
+/* li {
   display: block;
+  border-bottom: rgb(107, 105, 105) solid 1px;
+} */
+.techIndutorCard >li{
+    display: block;
+  border-bottom: rgb(107, 105, 105) solid 1px;
 }
+
 </style>

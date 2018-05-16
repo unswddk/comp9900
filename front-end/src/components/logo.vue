@@ -57,16 +57,16 @@ export default {
 
 .box .inner:first-child span {
 	animation-delay: 5s;
-	right: -100%;
+	left: -100%;
 }
 
 @keyframes marquee {
 	from {
-		right: 100%;
+		left: 100%;
 	}
 
 	to {
-		right: -100%;
+		left: -100%;
 	}
 }
 </style>
