@@ -1,38 +1,86 @@
 <template>
-<div class="proflioCard">
-  <div class="polaroid">
-<div class="container">
-   <h3>Item Name: {{message["name"]}}</h3>
-</div>
-<div v-if="showStock" class="trend">
+
+<md-card>
+      <md-card-header>
+        <md-card-header-text>
+          <div class="md-title">{{message["name"]}}</div>
+          <div class="md-subhead">Owner: {{message["ownerName"]}}</div>
+        </md-card-header-text>
+
+        <md-card-media md-medium>
+            <div v-if="showStock" class="trend">
           <trend :data="data" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend>
-</div>
-<!-- <div class="trend"> -->
-    <img v-if="!showStock" src="../../static/image/3.png" alt="oo" style="width: 100%;" >
-<!-- </div> -->
-    <div class="text-container">
-        <!-- {{message["state"]}}<br> -->
-        Total Amount: {{message["amount"]}}<br>
+            </div>
+          <img v-if="!showStock" :src="imageLink()" alt="People">
+        </md-card-media>
+      </md-card-header>
+     <md-card-content>
+
+Total Amount: {{message["amount"]}}<br>
                   <div  v-if="isBuyer">
         Input Amount:<InputNumber :max="max" :min="1" v-model="amountValue"></InputNumber>
         </div>
+   Price: <span v-if="!showStock">{{message["price"]}}</span>
+            <span v-if="showStock">  {{price}}</span><br>
+            <span v-if="showStock">Change:  {{change}}</span><br>
+            <span v-if="showStock"><b>Earn:  {{change * message["amount"]}}</b></span>
+
+
+
+            </md-card-content>
+      <md-card-actions>
+    <md-button class="md-raised md-primary" v-if="isSeller" @click="modal=true">Modify</md-button>
+    <md-button class="md-raised md-primary"  v-if="isBuyer" @click="buyItem()"> Buy</md-button>
+    <md-button class="md-raised md-primary"  v-if="isSellable" @click="sellItem()"> Sell</md-button>
+    <md-button class="md-raised md-accent"v-if="isDeleteAble" @click="deleteItem()">Delete</md-button>
+      </md-card-actions>
+  
+
+
+
+
+  <!-- <div class="polaroid"> -->
+<!-- <div class="container"> -->
+   <!-- <h3>Item Name: {{message["name"]}}</h3> -->
+<!-- </div> -->
+<!-- <div v-if="showStock" class="trend"> -->
+          <!-- <trend :data="data" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend> -->
+<!-- </div> -->
+<!-- <div class="trend"> -->
+    <!-- <img v-if="!showStock" src="../../static/image/3.png" alt="oo" style="width: 100%;" > -->
+<!-- </div> -->
+    <!-- <div class="text-container"> -->
+        <!-- {{message["state"]}}<br> -->
+        <!-- Total Amount: {{message["amount"]}}<br>
+                  <div  v-if="isBuyer">
+        Input Amount:<InputNumber :max="max" :min="1" v-model="amountValue"></InputNumber>
+        </div> -->
         <!-- {{message.state}} -->
-        Price: <span v-if="!showStock">{{message["price"]}}</span>
+        <!-- Price: <span v-if="!showStock">{{message["price"]}}</span>
             <span v-if="showStock">  {{price}}</span><br>
             <span v-if="showStock">Change:  {{change}}</span><br>
             <span v-if="showStock"><b>Earn:  {{change * message["amount"]}}</b></span>
         <br>
   
         OwnerName: {{message["ownerName"]}}<br>
-    
-    </div>
-        <div class="btn-container">
-        <Button type="primary" v-if="isSeller" @click="modal=true"> Madify</Button>
+     -->
+    <!-- </div> -->
+        <!-- <div class="btn-container"> -->
+    <!-- <md-button class="md-raised md-primary" v-if="isSeller" @click="modal=true">Modify</md-button>
+    <md-button class="md-raised md-primary"  v-if="isBuyer" @click="buyItem()"> Buy</md-button>
+    <md-button class="md-raised md-primary"  v-if="isSellable" @click="sellItem()"> Sell</md-button>
+    <md-button class="md-raised md-accent"v-if="isDeleteAble" @click="deleteItem()">Delete</md-button> -->
+
+<!--  
+        <Button type="primary" v-if="isSeller" @click="modal=true"> Modify</Button>
         <Button type="primary" v-if="isBuyer" @click="buyItem()"> Buy</Button>
         <Button type="primary" v-if="isSellable" @click="sellItem()"> Sell</Button>
-         <Button type="primary" v-if="isDeleteAble" @click="deleteItem()">Delete</Button>
-        </div>
-    </div>
+
+
+
+         <Button type="primary" v-if="isDeleteAble" @click="deleteItem()">Delete</Button> -->
+        <!-- </div> -->
+    <!-- </div> -->
   </Modal>
        <Modal
         v-model="modal"
@@ -53,8 +101,7 @@
         </FormItem>
          </Form>
 </Modal>
-</div>
-</div>
+  </md-card>
 </template>
 <script>
 export default {
@@ -229,11 +276,19 @@ export default {
             if (err) console.log(err);
             if (result) console.log(result+"========delete========");
            });
-    }
+    },
+    imageLink(){
+            return 'https://picsum.photos/300/200/?image='+ this.index+10+'&gravity=east';},
 }
 }
 </script>
 <style scoped>
+ .md-card {
+    width: 320px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
 .polaroid {
   width: 90%;
   /* border: 1px solid red; */
@@ -260,13 +315,14 @@ export default {
     overflow: hidden;
 }
 .btn-container{
-     padding: 10px 20px;
-     height: 50px;
+
+     /* padding: 10px 20px; */
+     /* height: 50px; */
     /* position: 0 0; */
     /* background: #000; */
 }
 .trend{
-    background: black;
+    /* background: black; */
     width: 100%;
     padding: 22px 10px;
     /* margin: 5px 0px; */

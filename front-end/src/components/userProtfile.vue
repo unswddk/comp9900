@@ -1,29 +1,50 @@
 <template>
-<div>
-  <Card>
-    <h3><span> <b> My Portfolios </b></span></h3>
-                    
-            <Button class="addBtn" slot="extra" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button>
-            <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" class="titleClass">
+<div class="portflio-container">
+  <!-- <Card> -->
+            <!-- <Button class="addBtn" slot="extra" type="ghost" shape="circle" icon="ios-plus-empty" @click="showAdd =!showAdd"></Button> -->
+          <!-- <Form v-if="showAdd"  ref="formInline" :model="formInline" :rules="ruleValidate" >
+             -->
+                    <Form  ref="formInline" :model="formInline" :rules="ruleValidate" >
                 <FormItem prop="title">
-                        <Input type="text" v-model="formInline.title" placeholder="Title">
+    <md-field style="width:50%;display:inline-block" >
+      <label>Title</label>
+      <md-input v-model="formInline.title" ></md-input>
+    </md-field>
+     <md-button class="md-raised md-primary" @click="createPrf()">Create a New Protflio</md-button>
+<Button type="ghost"  icon="checkmark" slot="append" </Button>
+                        <!-- <Input type="text" v-model="formInline.title" placeholder="Title">
                         <Button type="ghost"  icon="checkmark" slot="append" @click="createPrf()"></Button>
-                        </Input>
+                        </Input> -->
                     </FormItem>
             </Form>
-            
-            
-<div class="proflioCard" v-for="pro in profList" :key="pro.title">
-  <div class="polaroid">
-    <a@click="deleteProf(pro)"><Icon type="close-circled"  class="closeIcon" @click="deleteProf(pro)"></Icon></a>
-  <!-- <Icon type="ios-close-outline" class="closeIcon" @click="deleteProf(pro)"></Icon> -->
-  <img src="../../static/image/1.png" alt="Norway" style="width:100%">
+  
+  <md-card v-for="(pro,index) in profList" :key="pro.title">
+      <md-card-header>
+        <md-card-header-text>
+          <div class="md-title"> {{ pro.title }}</div>
+          <div class="md-subhead">This Protflio has {{pro.element.length}} stocks</div>
+        </md-card-header-text>
+
+        <md-card-media >
+          <img :src="imageLink(index)" alt="People">
+        </md-card-media>
+      </md-card-header>
+
+      <md-card-actions>
+        <md-button @click="trasToChild(pro)" v-bind:class="{ 'md-primary': pro.isSeclected }">Detail</md-button>
+        <md-button @click="deleteProf(pro)">Delete</md-button>
+      </md-card-actions>
+    </md-card>
+<!-- <div class="proflioCard" v-for="pro in profList" :key="pro.title"> -->
+  <!-- <div class="polaroid"> -->
+    <!-- <a @click="deleteProf(pro)"><Icon type="close-circled"  class="closeIcon" @click="deleteProf(pro)"></Icon></a> -->
+  <!-- <img src="../../static/image/1.png" alt="Norway" style="width:100%">
 
     <div class="container" v-bind:class="{ act: pro.isSeclected }" @click="trasToChild(pro)" >
       {{ pro.title }}
     </div>
   </div>
-</div>
+</div> -->
 
 
 <div  v-for="p in profList" :key="p.index" v-if="p.isSeclected " >  
@@ -38,13 +59,13 @@
     <th>Change</th>
     <th>% Chg</th>
     <th>Vollume</th>
-    <th>Day Chart</th>
+    <th>Chart</th>
     <th>Delete</th>
     </tr>
   </table>
 <stockcard v-for="i in p.element" :key="i.index" v-bind:code="i" v-on:listenToChildeEvent="deleteCode"></stockcard> 
            </div>
-            </Card>
+            <!-- </Card> -->
 </div>
 </template>
 <script>
@@ -85,7 +106,8 @@ export default {
       }
     };
   },
-  computed: {},
+  computed: {     
+        },
   components: {
     stockInProf,
     stockcard
@@ -158,7 +180,8 @@ export default {
           }
         );
     },
-
+   imageLink(index){
+            return 'https://picsum.photos/300/200/?image='+ index+'&gravity=east';},
     //create P
     createPrf() {
       this.$refs.formInline.validate(valid => {
@@ -284,6 +307,16 @@ export default {
 };
 </script>
 <style scoped>
+.portflio-container{
+  height: 600px;
+  margin: 10px 40px;
+}
+.md-card {
+    width: 320px;
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+  }
 table {
   border-collapse: collapse;
   width: 100%;

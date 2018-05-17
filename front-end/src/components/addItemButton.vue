@@ -1,7 +1,10 @@
 <template>
-  <div class="add-item-button">
-      <Button type="primary" shape="circle" icon="android-add" @click="addStock()"></Button>
-  </div>
+  <!-- <div class="add-item-button"> -->
+          <md-button class="md-fab md-mini  md-primary"  @click="addStock()">
+          <md-icon>add</md-icon>
+    </md-button>
+      <!-- <Button type="primary" shape="circle" icon="android-add" @click="addStock()"></Button> -->
+  <!-- </div> -->
 </template>
 
 <script>

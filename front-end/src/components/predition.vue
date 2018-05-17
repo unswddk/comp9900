@@ -1,8 +1,8 @@
 <template>
-<div class="circ">
-  <div class="load">{{value}} </div>
-  <div class="hands">
-    <div class="heart" v-if="up"></div>
+<div class="p-circ" >
+  <div class="p-load">{{value}} </div>
+  <div class="p-hands">
+    <div class="p-heart" v-if="up"></div>
     <svg v-if="down" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" width="20px" height="20px" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <path style="fill:#FF3F2E;" d="M466.9,59.6c-27-27.3-64.5-44.1-105.9-44.1c-3.9,0-7.8,0-11.4,0.6s-6.9,2.1-9.3,5.1
@@ -21,10 +21,10 @@
 </g>
 </svg>
   </div> 
-  <div class="body">
+  <div class="p-body">
   </div>
-  <div class="head">
-    <div class="eye" ></div>
+  <div class="p-head">
+    <div class="p-eye" ></div>
   </div>
   </div>
 </template>
@@ -45,6 +45,7 @@ export default {
   watch: {
     message: function() {
       this.value="predciting . . .";
+      console.log("============predition===========")
       this.up=false;
       this.down=false;
       this.$http
@@ -73,7 +74,7 @@ export default {
 </script>
 <style scoped>
 @import url(https://fonts.googleapis.com/css?family=Julius+Sans+One);
-.eye {
+.p-eye {
   width: 20px;
   height: 10px;
   background-color: white;
@@ -83,7 +84,7 @@ export default {
   top: 30px;
   box-shadow: 40px 0px 0px 0px white;
 }
-.head {
+.p-head {
   backface-visibility: hidden;
   position: relative;
   margin: -280px auto;
@@ -95,7 +96,7 @@ export default {
   animation: headAnim 2.5s infinite alternate;
   animation-timing-function: ease-out;
 }
-.body {
+.p-body {
   position: relative;
   margin: 90px auto;
   width: 180px;
@@ -128,26 +129,26 @@ export default {
     top: -5px;
   }
 }
-.circ {
+.p-circ {
   backface-visibility: hidden;
   margin: 60px auto;
   width: 180px;
   height: 180px;
-  /* background-color: white; */
+  /* background-color: black; */
   border-radius: 0px 0px 50px 50px;
   position: relative;
-  z-index: -1;
+  z-index: 0;
   left: 0%;
   top: 20%;
   overflow: hidden;
 }
-.hands {
+.p-hands {
   backface-visibility: hidden;
   margin-top: 140px;
   width: 120px;
   height: 120px;
   position: absolute;
-  background-color: black;
+  background-color: rgb(0, 0, 0);
   border-radius: 20px;
   box-shadow: -1px -4px 0px 0px white;
   transform: rotate(45deg);
@@ -157,7 +158,7 @@ export default {
   animation: bodyAnim 2.5s infinite alternate;
   animation-timing-function: ease-out;
 }
-.load {
+.p-load {
   position: absolute;
   width: 7ch;
   height: 32px;
@@ -200,7 +201,7 @@ export default {
     width: 13ch;
   }
 }
-.heart {
+.p-heart {
   background-color: red;
   display: inline-block;
   height: 10px;
@@ -211,8 +212,8 @@ export default {
   width: 10px;
 }
 
-.heart:before,
-.heart:after {
+.p-heart:before,
+.p-heart:after {
   content: "";
   background-color: red;
   border-radius: 50%;
@@ -221,12 +222,12 @@ export default {
   width: 10px;
 }
 
-.heart:before {
+.p-heart:before {
   top: -5px;
   left: 0;
 }
 
-.heart:after {
+.p-heart:after {
   left: 5px;
   top: 0;
 }

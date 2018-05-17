@@ -1,21 +1,47 @@
 <template>
-<div>
-<div class="header-container">
- <logo class="logo"></logo>
-
-  <!-- <span class="logo"><b><strong>
-{{ massage }}</strong></b>
-  </span> -->
-<!-- <Icon type="plus"></Icon> -->
-<ButtonGroup size="large" shape="circle" class="icon-login" v-if="!username">
-<Button  type="text"  @click="modal2 = true" ><span style='color:rgb(89, 126, 206)'>Sign In</span></Button>
-<Button  type="text"  @click="modal1 = true"> <span style="color:rgb(89, 126, 206)">Sign Up</span></Button>
-</ButtonGroup>
-<ButtonGroup size="small" shape="circle" class="icon-login" v-if="username">
-<Button  type="text"  disabled><span style='color:rgb(89, 126, 206)'>{{username}}</span></Button>
-<Button  type="text"  @click="logout"> <span style="color:rgb(89, 126, 206)">Log Out</span></Button>
-</ButtonGroup>
- <Modal
+  <div class="page-container">
+    <md-app md-waterfall md-mode="fixed-last">
+       <md-app-toolbar class="md-large md-dense md-primary">
+    <div class="md-toolbar-row">
+          <div class="md-toolbar-section-start">
+            <span class="md-title">{{massage}}</span>
+          </div>
+          <div class="md-toolbar-section-end">
+            <md-menu>
+              <md-button class="md-icon-button" md-menu-trigger>
+              <md-icon>more_vert</md-icon>
+            </md-button>
+          <md-menu-content style="margin-top:40px;">
+              <md-menu-item v-if="!username">
+                <!-- <ButtonGroup size="large" shape="circle" class="icon-login" v-if="!username"> -->
+                
+                    <md-button class="md-accent"  type="text"  @click="modal2 = true" ><span style='color:rgb(89, 126, 206)'>Sign In</span></md-button>
+                    <md-button class="md-accent"  @click="modal1 = true"> <span style="color:rgb(89, 126, 206)">Sign Up</span></md-button>
+                    <!-- </ButtonGroup>
+                    <ButtonGroup size="small" shape="circle" class="icon-login" v-if="username">
+                    <Button  type="text"  disabled><span style='color:rgb(89, 126, 206)'>{{username}}</span></Button>
+                    <Button  type="text"  @click="logout"> <span style="color:rgb(89, 126, 206)">Log Out</span></Button>
+                  </ButtonGroup> -->
+                <!-- <md-icon>phone</md-icon> -->
+                <!-- <span>My Item 1</span> -->
+              </md-menu-item>
+              <md-menu-item v-if="username">
+                    <Button  type="text"  disabled><span style='color:rgb(89, 126, 206)'>{{username}}</span></Button>
+                    <md-button  class="md-accent" @click="logout"> <span style="color:rgb(89, 126, 206)">Log Out</span></md-button>
+              </md-menu-item>
+          </md-menu-content>
+          </md-menu>
+          </div>
+        </div>
+      <div class="md-toolbar-row">
+          <md-tabs class="md-primary">
+            <md-tab id="tab-home" md-label="Search" ></md-tab>
+            <md-tab id="tab-posts" md-label="Stocks"></md-tab>
+            <md-tab id="tab-favorites" md-label="Trading"></md-tab>
+          </md-tabs>
+      </div>
+    </md-app-toolbar>
+     <Modal
         v-model="modal2"
         title="Login"
         okText="Submit"
@@ -64,9 +90,8 @@
         </FormItem> -->
     </Form>
     </Modal>
-</div>
-<sector class="sector"></sector>
-</div>
+    </md-app>
+    </div>
 </template>
 <script>
 import { EventBus } from "./event-bus.js";
@@ -98,6 +123,7 @@ export default {
     return {
       massage: "FCLMonsters",
       value1: "",
+      menuVisible: false,
       modal1: false,
       modal2: false,
       username: localStorage.username,
@@ -342,4 +368,7 @@ export default {
   background: #fafafa;
   bottom: 0;
 }
+ .md-dialog {
+    max-width: 768px;
+  }
 </style>

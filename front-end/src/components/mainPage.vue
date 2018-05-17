@@ -1,12 +1,22 @@
 <template>
 <div>
+  <!-- <sector class="sector"></sector> -->
   <Row class="firstRow" >
     <Col offset='4' class="col1" span="10">
-    <p>{{ companyName }}<Tooltip content="Add to Myprofolio">   <Button v-if='active'  type="ghost" shape="circle" icon="ios-star-outline" v-on:click='addToP'></Button>
+    <p>{{ companyName }}
+      
+  <md-button class="md-fab md-mini md-plain" v-if='active' v-on:click='addToP'><md-icon>favorite_border</md-icon> <md-tooltip md-direction="bottom">Click to add this stock to default prortfolio</md-tooltip></md-button>
+   
+    <md-button class="md-fab md-mini md-plain" @click="showPredition">
+          <md-icon>flare</md-icon>
+          <md-tooltip md-direction="bottom" >Click to get the Predition reuslt</md-tooltip>
+    </md-button>
     
-    </Tooltip>
     <addItemButton  v-if="showSecond" v-bind:code="model10" v-bind:amount="stockAmount" v-bind:price="stockInfo['4. close']"></addItemButton>
-    
+       <!-- <md-field>
+      <label>Amount</label>
+      <md-input v-model="number" type="number"></md-input>
+    </md-field> -->
     <InputNumber  v-if="isSeller" @on-blur="showSecond = true" :max="1000000" :min="1" v-model="stockAmount"></InputNumber>
     </p> 
     <p><Icon type="code"></Icon> {{ model10 }} </p>
@@ -14,24 +24,25 @@
     </p>
     <p><Icon type="ios-world-outline"></Icon>{{group}}</p>
     <p>Peer:</p>
-   <div class="buttonZoom">
-    <Button type="ghost" shape="circle"   v-for="pe in peer" :value='pe.code' :key='pe.name' v-on:click="changePeer(pe)">{{pe.code}}</Button>
-   </div>
+   <!-- <div class="buttonZoom"> -->
+      <md-chip class="md-primary" md-clickable v-for="pe in peer" :value='pe.code' :key='pe.name' v-on:click="changePeer(pe)">{{pe.code}}</md-chip>
+    <!-- <Button type="ghost" shape="circle"   v-for="pe in peer" :value='pe.code' :key='pe.name' v-on:click="changePeer(pe)">{{pe.code}}</Button> -->
+   <!-- </div> -->
      <Select v-model="model10" filterable class="section" @input="chartQuote" size="large">
         <Option v-for="item in cityList" :value="item.code" :key="item.name">{{ item.code }}----------{{item.name}}</Option>
     </Select>
     </Col>
     <Col offset="1" span="4">
-    <predition v-bind:message="model10"></predition>
+    <predition v-bind:message="model10" v-show="showPred" ></predition>
     </Col>
     </Row>
+    <sector class="sector"></sector>
     <hr class="fullWidth-hr">
-
-     <Row>
+     <!-- <Row>
   <Col  offset='2' span='20'> 
            <userProtfile v-if="user"></userProtfile>
         </Col>
-    </Row>
+    </Row> -->
     <br>
     <Row>
       <Col offset='2' span='20'>
@@ -81,7 +92,7 @@
 
  <!-- peerInfo start-->
     <Row>
-        <Col offset='2' span='20'>
+        <Col offset='2' span='20'><h2>Peers' Chart</h2>
       <Carousel v-model="value0">
           <CarouselItem v-for="p in peer" :key="p.code" >
               <peerCard v-bind:message="p.code"></peerCard>
@@ -93,31 +104,24 @@
  <!-- peerInfo end-->
 
  <!-- blockChain part start-->
-<br><br><br><hr class="middle-hr">
+<!-- <br><br><br><hr class="middle-hr">
     <Row>
       <br><br>
       <Col span="22" offset="2">
-          <coinsInfoCard style="display: inline-block;"></coinsInfoCard>
+          <coinsInfoCard style="display: inline-block;"></coinsInfoCard> -->
           <!-- <metamask style="display: inline-block;"></metamask>           -->
-          <tradeBoard></tradeBoard>
+          <!-- <tradeBoard></tradeBoard>
       </Col>
-    </Row>
+    </Row> -->
 
  <!-- blockChain part end-->
 
 
  <!-- News part start-->
- <br><br><br><hr class="middle-hr">
-     <Row>
-      <Col offset='2' span='22'>
-      <div>
-      <newsCard v-for="n in news" :key="n.index" v-bind:message="n" style="vertical-align: top;"></newsCard>
-      </div>
-      </Col>
-    </Row> 
  <!-- News part end-->
+ <newsCard v-bind:message="companyName"></newsCard>
 
-     <BackTop></BackTop>
+     <!-- <BackTop></BackTop> -->
   </div>
 </template>
 <script>
@@ -128,6 +132,7 @@ import VCharts from "v-charts";
 import iView from "iview";
 import changeInfo from "./change";
 import Trend from "vuetrend";
+import sector from "./sector.vue";
 import { EventBus } from "./event-bus.js";
 import userProtfile from "./userProtfile.vue";
 import techInductor from "./techInductor.vue";
@@ -157,6 +162,7 @@ export default {
       newRows: [],
       peerInfo: [],
       showSecond:false,
+      showPred:false,
       username: "",
       news: [],
       stockInfo: {
@@ -212,13 +218,10 @@ export default {
     tradeBoard,
     peerCard,
     newsCard,
-    addItemButton
+    addItemButton,
+    sector
   },
   beforeCreate:function () {
-    console.log('registerWeb3 Action dispatched from cart-dapp.vue')
-    this.$store.dispatch('registerWeb3')
-    // this.$store.dispatch('getCoinInfoCall')
-    this.$store.dispatch('getContractInstance');
   },
   created: function() {
     this.$http.get("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getCompanyInfo").then(
@@ -233,12 +236,13 @@ export default {
         console.log("服务器请求失败");
       }
     );
+    console.log(this.companyName)
     this.$http
-      .get("https://api.iextrading.com/1.0/stock/market/news/last/3")
+      .get("https://newsapi.org/v2/everything?q="+this.companyName+"&from=2018-04-05&apiKey=320e46c256854087b0c1703e6de2d18e")
       .then(
         response => {
           this.news = [];
-          this.news = response.data;
+          this.news = response.data.articles;
           console.log(this.news);
         },
         response => {
@@ -413,6 +417,12 @@ export default {
     changePeer(pe) {
       this.model10 = pe.code;
     },
+    showPredition(){
+      this.showPred=true;
+      setTimeout(()=>{
+        this.showPred=false;
+      },20000)
+    },
     addToP() {
       EventBus.$emit("addToPf", this.model10);
       this.prortFolio.push({
@@ -545,5 +555,21 @@ Button {
   display: block;
   border-bottom: rgb(107, 105, 105) solid 1px;
 }
-
+/*  */
+.sector{
+  bottom: 0;
+  /* width: 200px; */
+  /* align-content: center; */
+  font-size: 11px;
+	position: absolut
+	/* animation: marquee 50s linear infinite; */
+}
+@keyframes marquee {
+	from {
+		right:  50%;
+	}
+	to {
+		right: -80%;
+	}
+}
 </style>

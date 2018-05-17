@@ -1,14 +1,17 @@
 <template>
-  <div>
-
-    <div v-for=" (item,index) of info.items" :key="item.index" class="itemCard">
-        <itemVue v-bind:message="item" v-bind:index="index"></itemVue>
-    </div>
-
-    <div>
-      <Button type="primary" v-if="!info.isUser"  @click="modal2 = true">Join</Button>
-    <Button type="primary" @click="modal = true" v-if="isSeller"> add</Button>
-    </div>
+  <div class="trading-board"> 
+      <div>    
+    <md-button class="md-primary" v-if="!info.isUser"  @click="modal2 = true">Join To Our Trading Board</md-button>
+    <md-button class="md-primary" @click="modal = true" v-if="isSeller">Click to add a New Item</md-button>
+</div>
+<div class="md-layout md-gutter  md-alignment-center">
+        <itemVue class="md-layout-item md-large-size-25  md-medium-size-25 md-small-size-50 md-xsmall-size-100" v-bind:message="item" v-bind:index="index" v-for=" (item,index) of info.items" :key="item.index"></itemVue>
+</div>
+    <!-- <div> large-->
+ 
+    <!-- <Button type="primary" v-if="!info.isUser"  @click="modal2 = true">Join</Button> -->
+    <!-- <Button type="primary" @click="modal = true" v-if="isSeller"> add</Button> -->
+    <!-- </div> -->
 
 
        <Modal
@@ -211,6 +214,10 @@ export default {
 };
 </script>
 <style scoped>
+.trading-board{
+  height: 600;
+   margin: 10px 40px;
+}
 td{
     font: bold;
     text-align: left;
@@ -220,7 +227,7 @@ td{
 }
 .itemCard{
   /* border: 1px solid red; */
- 
+  padding: 20px 0px;
     width: 220px;
     display: inline-block;
     vertical-align: top; 

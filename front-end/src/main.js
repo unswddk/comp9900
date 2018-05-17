@@ -6,7 +6,12 @@ import router from './router'
 import iView from 'iview'
 import Loading from './components/loading.vue'
 import 'iview/dist/styles/iview.css'
+import VueMaterial from 'vue-material'
 import store from './store/store.js';
+import '../styles/my-styles.scss';
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+Vue.use(VueMaterial)
 Vue.config.productionTip = false
 Vue.use(iView);
 Vue.component('Loading', Loading)
