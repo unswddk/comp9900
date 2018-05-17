@@ -20,7 +20,8 @@
     <InputNumber  v-if="isSeller" @on-blur="showSecond = true" :max="1000000" :min="1" v-model="stockAmount"></InputNumber>
     </p> 
     <p><Icon type="code"></Icon> {{ model10 }} </p>
-    <p><label> {{Number(stockInfo['4. close']).toFixed(2)}} </label><span class="change"><changeInfo v-bind:message="change"></changeInfo> (<changeInfo v-bind:message="changePg"></changeInfo>)<span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
+    <p><label> {{Number(stockInfo['4. close']).toFixed(2)}} </label><span class="change"><changeInfo v-bind:message="change"></changeInfo> (<changeInfo v-bind:message="changePg"></changeInfo>)
+    <span class="stockTrend"><trend :data="stockData" :gradient="['#6fa8dc', '#42b983', '#2c3e50']" auto-draw smooth></trend></span></span>
     </p>
     <p><Icon type="ios-world-outline"></Icon>{{group}}</p>
     <p>Peer:</p>
@@ -156,9 +157,9 @@ export default {
       value0:0,
       code: "",
       cityList: [],
-      model10: "MOQ",
-      companyName: "MOQ LIMITED",
-      group: "Software & Services",
+      model10: "BKL",
+      companyName: "BLACKMORES LIMITED",
+      group: "Household & Personal Products",
       newRows: [],
       peerInfo: [],
       showSecond:false,
@@ -186,9 +187,7 @@ export default {
   },
   computed: {
     change: function() {
-      return (
-        "" +
-        Number(this.stockInfo["4. close"] - this.stockInfo["1. open"]).toFixed(
+      return ("" +Number(this.stockInfo["4. close"] - this.stockInfo["1. open"]).toFixed(
           5
         )
       );
@@ -236,20 +235,6 @@ export default {
         console.log("服务器请求失败");
       }
     );
-    console.log(this.companyName)
-    this.$http
-      .get("https://newsapi.org/v2/everything?q="+this.companyName+"&from=2018-04-05&apiKey=320e46c256854087b0c1703e6de2d18e")
-      .then(
-        response => {
-          this.news = [];
-          this.news = response.data.articles;
-          console.log(this.news);
-        },
-        response => {
-          // 响应错误回调
-          console.log("服务器请求失败");
-        }
-      );
   },
   mounted: function() {
     EventBus.$on("deleteInPf", data => {

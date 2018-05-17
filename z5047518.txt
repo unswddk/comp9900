@@ -1,4 +1,64 @@
-week 2:
- group formed, I incharge for developing work, so i decide to use Vue-cli to develop the fontend first,
- week4:
- nearly finish the front end part
+Week 2 
+1.	Group formed. Joined in the Trello team and created the Github account.
+2.	We Spent the time analyzed the project spec given by teacher.
+3.  We decided using which technich to implement our project,
+ 
+Week 3
+Proposal phrase.
+1.	Worked together to use the UX tool to create the basic user interface and logic demo online. And recorded it to share with team members to help them understand the spec.
+2.	Confirmed the tech stack as Front-end framework (vue.js), Serverless (Back-end)
+3.	Review the proposal and give them some tech support
+3.  create the raw interface by using vue-cli,vuex,iview,and decide to use Serverless framework and DynamoDB in the backend
+
+Week 4
+1.	Prepared for first-step demo, including introducing the API https://www.alphavantage.co, reading the doc of the API, introducing the Chart drawing tool (I-View , V-Charts )
+2.	Got familiar with the front-end framework and developed the website
+3.  finish the main Page and beging to start the user login in system
+
+Week 5
+Finished the frist-step demo includes the cards of 
+1.	Info & Search card page:
+1.1	Real time info of the select stock
+1.2	Search & list bar of all the ASX stocks
+1.3	Peer stocks(Button group) for each selected stock
+2.	Stock K-chart page
+3.	Peer stock table
+Demonstrated to tutor in the lab and discussed with team member to see if we can implement the prediction module in the final demo.
+4.  implementing the portfolio system, which normaly CUSD function
+5.  update the UI of this website
+
+
+Week 6
+Mid-break week.
+Continuing developing the website.
+Including get familiar with Serverless and DynamoDB for the portfolio System. 
+
+
+Week 7
+Finished the tasks including:
+1.	Developed News module
+2.	Working on the User login/ Register feature and log out
+3.	Developed the feature of “Forget password”
+4.  Starting to think about the blockchain funciton to sell stock  
+
+Week 8
+Finished the User system and the feature “Forget password”
+Starting working on the portfolio management system
+
+Week 9
+1.  Finished the portfolio management system
+2.  Update the Github page to give the raw demo for other user
+3.  update the UI to display all the stock infomation 
+4.  implemented the backend part for store portfolio and get the stockes this user added in the portfolio
+5.  user can delete the stock in a selected portfolio
+6.  implement the blockchain part for the project
+
+Week 10
+Iterated the website with some changes includes:
+-	Wrote CSS script of the black wizard to show the result of the prediction  
+-	Changed the peer table to Carousel K – Chart
+-   finish the blockchain part the display the trading board
+-   fix bugs, and consider the UI is not so clear and 
+
+Week 11
+Fixed the bugs the tester member find and Add some Blockchain techs

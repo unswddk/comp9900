@@ -32,7 +32,6 @@
         response => {
           this.news = [];
           this.news = response.data.articles;
-          console.log(this.news);
         },
         response => {
           // 响应错误回调
