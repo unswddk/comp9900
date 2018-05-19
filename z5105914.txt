@@ -1,2 +1,48 @@
-Week 2
-Group formed.
+Week 2 
+1. Group formed. Joined in the Trello team and created the Github account.
+2. Group discussion about the project spec, compare with yahoo and blomberg website, drafted the basic feature: user system(login, register, forget password), portfolio system(add, delete, modify), display dashboard
+
+Week 3
+Proposal phrase.
+1. Work together to mocked the UX process and pages using online tool recorded it to share with team members to help them understand the spec. We used the yahoo finance page for our website reference (https://au.finance.yahoo.com/)
+2. Review the proposal and give them some tech support
+3. Posted the original tech stack (vue.js front-end) and mysql with servlet deployed on AWS e2(back end) and drafted the relational database structure of user table, portfolio table but dropped by discussion.
+4.Confirmed with members tech stack (vue.js, Serverless, DynamoDB)
+
+Week 4
+1. Used python beautiful soup to fetch the data from yahoo but not satisfying and changed to Calling API.
+2. Developed the ASX stock list json file (code, name, category belong to) using python.
+
+Week 5
+1. Newbie to serverless and follow the document to write the back-end function.
+2. Finished the User login/ Register backend with Serverless
+
+Week 6
+Mid-break week.
+Continuing developing the website.
+
+Week 7
+- fixed the bugs when called the register/ login features like “register with the same address”, “access control checks”
+- Helped to developed the feature of forget password
+
+Week 8
+-Working with portfolio management system
+-Searched another API and went through doc to iterate the New module to the relevant stock company rather than the general market news originally
+
+Week 9
+- When the team member finished the machine learning part, communicated and understood their script to deploying to AWS 
+- Write the back-end server calling prediction function and fixed bugs like /temp historical file storage in cloud.
+
+Week 10
+- Met the problem of response speed of prediction part is extremely slow due to our team member changing the historical data from American stock market to specializing in asx. 
+- Improved this flaw by changing different region servers with Serverless and the result boosted the response to average 7s compared to 22s or error before.
+- Working on writing script that auto fetch all prediction daily in advance on server and return a list of predicted result
+
+Week 11
+Fixed the bugs and discussed together changing the UI of the website including 
+- Homepage layout (background pic design, trend CSS design, industry sector part)
+- Introduced a new front end library Vuematerial https://vuematerial.io/
+- Developed the chart block for the stock serach module
+
+Week12
+To be continued
