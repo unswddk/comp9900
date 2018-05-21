@@ -1,9 +1,7 @@
 <template>
-
     <md-card>
-
       <md-card-header>
-        <div class="md-title">{{message.code}}</div>
+        <div class="md-title">{{message.code}}</div>       
         <div class="md-subhead"> {{message.group}}</div>
         {{message.name}}
       </md-card-header>
@@ -16,9 +14,21 @@
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
           <div>
-            <md-button class="md-primary" v-on:click='addToP' v-if="active">Add</md-button>
+            <md-button class="md-icon-button md-primary" v-on:click='addToP' v-if="active">
+              <md-icon>add</md-icon></md-button>
+           <md-button class="md-icon-button md-accent" @click="dialogActive = true">
+              <md-icon>loupe</md-icon>
+               <md-tooltip md-direction="bottom">add stock to blockchain</md-tooltip>
+          </md-button>
           </div>
-
+    <md-dialog-prompt
+      :md-active.sync="dialogActive"
+      v-model="quantity"
+      md-title="What's the Quantity?"
+      md-input-maxlength="10"
+      md-input-placeholder="Type your number..."
+      md-confirm-text="Done"
+      @md-confirm="addToB" />
           <md-card-expand-trigger>
             <md-button class="md-icon-button">
               <md-icon>keyboard_arrow_down</md-icon>
@@ -46,7 +56,10 @@ export default {
     return {
       active:true,
       value: "this is coin info page",
+      prortFolio:[],
       data:[],
+      dialogActive:false,
+      quantity:null,
       stockInfo: {
         "1. open": "",
         "2. high": "",
@@ -57,6 +70,23 @@ export default {
     };
   },
   created(){
+      this.$http
+      .post(
+        "https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/getPf",
+        JSON.stringify({ email: localStorage.mail })
+      )
+      .then(response => {
+        this.prortFolio = response.data.prof;
+        console.log(this.prortFolio);
+        if (
+          this.prortFolio.filter(
+            e => e.title == "default" && e.element.indexOf(this.message.code) > -1
+          ).length > 0
+        ) {
+          this.active = false;
+        }
+        response => {};
+      });
          this.$http
         .get(
           "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=" +
@@ -110,8 +140,45 @@ export default {
   },
   methods:{
         addToP() {
-      EventBus.$emit("addToPf", this.model10);
-      this.active = false;
+        EventBus.$emit("addToPf", this.message.code);
+        this.active = false;
+
+    },
+    addToB(){
+      //inserStock(bytes32 _code,uint _amount,uint _price,bytes32 _state,bytes32 _buyDate, bytes32 _sellDate)
+      if(Number(this.quantity)){
+        let date =new Date();
+        this.$store.state.portfolioInstace().inserStock(
+          web3.fromAscii(this.message.code),this.quantity,parseInt(this.stockInfo["4. close"]*100),web3.fromAscii("new"),web3.fromAscii(date+""),web3.fromAscii(""),{
+                from: this.$store.state.web3.coinbase,
+               gas:3000000,
+               vlaue: this.$store.state.web3.web3Instance().toWei(0, 'ether')
+          },(err,res)=>{
+            if (err) console.log(err);
+            if (res) {
+              console.log(res);
+              console.log(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].followers);
+              //send email to those follower
+         
+              let emails = this.$store.state.allPortfolio[this.$store.state.web3.coinbase].followers;
+              if(emails.length>0){
+             emails.forEach(element => {
+                    let emailObj = {
+                            email:element,
+                            content:"User "+this.$store.state.allPortfolio[this.$store.state.web3.coinbase].portfolioName+" add quantity: "+this.quantity+
+                            " ;stock code: " +this.message.code + " in "+ date
+              }
+                this.$http.post("https://fazet6wlh9.execute-api.us-east-1.amazonaws.com/dev/sendToFollower",JSON.stringify(emailObj)).then(
+                  response=>{
+                    console.log(response);
+                  }
+                )
+             });
+              }
+              }
+          }
+        )
+      }
     }
   }
 };

@@ -5,7 +5,7 @@ import userProtfile from '@/components/userProtfile'
 import changePwd from '@/components/changePwd'
 import tradeBoard from "@/components/trading"
 import coinsInfoCard from "@/components/coinsInfoCard"
-// import userProtfile from "@/components/userProtfile"
+import portfolioInBc from "@/components/portfolioInBc"
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +41,11 @@ export default new Router({
       path:'/portflio',
       name:'portflio',
       component:userProtfile
-    }
+    },
+    {
+      path:'/portfolioInBc',
+      name:'portfolioInBc',
+      component:portfolioInBc
+    }//portflioInBc
   ]
 })

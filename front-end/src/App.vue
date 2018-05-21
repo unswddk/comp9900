@@ -103,6 +103,10 @@
             <md-icon>turned_in</md-icon>
             <span class="md-list-item-text"><router-link to="/portflio">Portfolio</router-link></span>
           </md-list-item>
+          <md-list-item>
+            <md-icon>verified_user</md-icon>
+            <span class="md-list-item-text"><router-link to="/portfolioInBc">Portfolio Helper</router-link></span>
+          </md-list-item>
         </md-list>
       </md-app-drawer>
 
@@ -259,7 +263,7 @@ export default {
   beforeCreate(){
     console.log('registerWeb3 Action dispatched from cart-dapp.vue')
     this.$store.dispatch('registerWeb3')
-    // this.$store.dispatch('getCoinInfoCall')
+    this.$store.dispatch('getPortfolioCall')
     this.$store.dispatch('getContractInstance');
   },
   methods: {
@@ -323,9 +327,7 @@ export default {
             )
             .then(
               response => {
-                // console.log(response.data);
                 if (response.status == 200) {
-                  // this.$store.commit("isLogin", response.data);
                   localStorage.username = response.body.data.Item.username;
                   localStorage.mail = response.body.data.Item.email;
                   localStorage.token = response.body.data.token;

@@ -8,8 +8,11 @@ import coinInfoList from './modules/coinInfoList';
 import getUerContract from '../util/getUserContract';
 import getPurchaseContract from '../util/getPurchase';
 import contractFunctionCall from '../util/contractFunctionCall';
+import getPortfolioInstance from '../util/getPortfolioInstance';
 import pollContractFunctionCall from '../util/pollContractFunctionCall'
 import {ABI,address} from '../util/constants/secondContract';
+import getPortfolio from '../util/getPortfolio';
+import sendEmail from '../util/sendEmail';
 Vue.use(Vuex)
 
 const state = {
@@ -22,7 +25,6 @@ const state = {
     error: null
   },
   contractInstance: null,
-  purchaseContractInstance: null,
   info: {
     users: [],
     items: [],
@@ -30,6 +32,8 @@ const state = {
     //add if this a user
   },
   userInfo: [],
+  portfolioInstace:null,
+  allPortfolio:{}
 }
 
 const getters = {
@@ -67,10 +71,6 @@ const mutations = {
     state.contractInstance = () => payload
     contractFunctionCall()
     pollContractFunctionCall()
-  },
-  registerPurchaseContractInstance(state, payload) {
-    console.log('contract instance: ', payload)
-    state.purchaseContractInstance = () => payload
   },
   contractFunctionCallInstance(state, payload) {
     let result = payload;
@@ -134,9 +134,6 @@ const mutations = {
       state.info.items.push(payload.items);
     }
       },
-
-
-
       deleteItemInstance(state,obj){
         // console.log(obj.id);
            for(let i=0;i<state.info.items.length;i++){
@@ -144,6 +141,35 @@ const mutations = {
                 state.info.items.splice(i,1);
                }
            }
+      },
+      getPortfolioInstance(state,payload){
+        // state.portfolioInstace = payload;
+        state.portfolioInstace = () => payload;
+        console.log(state.portfolioInstace());
+        getPortfolioInstance();
+      },
+      updatePortfolioInstance(state,payload){
+        // console.log("=========payload==========");
+        // console.log(payload);
+        if(JSON.stringify(state.allPortfolio[payload.element]) == undefined){
+          state.allPortfolio[payload.element] = {}
+        }
+        state.allPortfolio[payload.element] = Object.assign(state.allPortfolio[payload.element],payload.payload);
+        // console.log(state.allPortfolio);
+      },
+      updateStocksInstance(state,payload){
+        if(JSON.stringify(state.allPortfolio[payload.element]) === undefined){
+          state.allPortfolio[payload.element] = {}
+        }
+        if(JSON.stringify(state.allPortfolio[payload.element]["stocks"]) === undefined){
+          state.allPortfolio[payload.element]["stocks"]={}
+        }
+        if(JSON.stringify(state.allPortfolio[payload.element]["stocks"][payload.stock.id])===undefined){
+          state.allPortfolio[payload.element]["stocks"][payload.stock.id] ={}
+        }
+        state.allPortfolio[payload.element]["stocks"][payload.stock.id] = Object.assign(state.allPortfolio[payload.element]["stocks"][payload.stock.id], payload.stock);
+        // console.log('=====add stock=======');
+        // console.log(state.allPortfolio);
       }
 }
 const actions = {
@@ -171,22 +197,6 @@ const actions = {
       commit('registerContractInstance', result)
     }).catch(e => console.log(e))
   },
-  getPurchaseContractInstance({commit}, obj) {
-    if (typeof web3 !== 'undefined') {
-      web3 = new Web3(web3.currentProvider);
-    } else {
-      web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-    }
-    web3.eth.defaultAccount = web3.eth.accounts[0];
-    let infoContract = new web3.eth.contract(ABI, {
-      from: obj.seller,
-      gas: 300000,
-      value: web3.toWei(obj.value, 'ether'),
-    });
-    console.log(infoContract.options)
-    var info = infoContract.at(address);
-    commit('registerPurchaseContractInstance', info)
-  },
   getContractFunctionCall({
     commit
   }, payload) {
@@ -204,7 +214,18 @@ const actions = {
   },
   deleteItem({commit},obj){
     commit('deleteItemInstance',obj)
-  }
+  },
+  getPortfolioCall({commit}){
+    getPortfolio.then(result => {
+    commit('getPortfolioInstance',result)
+  })
+  },
+  updatePortfolio({commit},result){
+    commit('updatePortfolioInstance',result)
+  },
+  updateStocks({commit},result){
+    commit('updateStocksInstance',result)
+  },
 }
 export default new Vuex.Store({
   strict: true,

@@ -16,8 +16,10 @@
   "dependencies": {
     "@material/button": "^0.35.0",
     "@material/ripple": "^0.35.0",
+    "dns": "^0.2.2",
     "echarts": "^4.0.4",
     "iview": "^2.11.0",
+    "nodemailer": "^4.6.4",
     "truffle-contract": "^3.0.5",
     "v-charts": "^1.16.6",
     "vue": "^2.5.2",
@@ -25,6 +27,7 @@
     "vue-material": "^1.0.0-beta-10.2",
     "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",
+    "vuelidate": "^0.6.2",
     "vuetrend": "^0.3.2",
     "vuex": "^3.0.1",
     "web3": "^0.20.6"

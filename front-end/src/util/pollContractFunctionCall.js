@@ -15,10 +15,7 @@ function containsObject(obj, list) {
 let pollContractFunctionCall = function (state) {
     let web3 = window.web3 //new a web3 instance3
     web3 = new Web3(web3.currentProveider) //get the currentProvediver and pass it to a new web3
-
-
     setInterval(() => {
-          //check User, if user is same ,check items
           store.state.contractInstance().getAllUsers((err, result) => {
                 if (err) {
                   return null;
