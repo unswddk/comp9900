@@ -1,0 +1,157 @@
+service: my-project
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+custom:
+  pythonRequirements:
+    dockerizePip: true
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: offline/migrations
+
+provider:
+  name: aws
+  runtime: nodejs6.10  
+  environment:
+    DYNAMODB_TABLE:  TodosDynamoDbTable
+    USER_TABLE: UserbTable #DynamoDbExpenses is a logicalID also used when provisioning below
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:         
+        - { "Fn::GetAtt": ["TodosDynamoDbTable", "Arn"] } #you will also see the logical IDs below where they are provisioned
+        - { "Fn::GetAtt": ["UserbTable", "Arn"] }
+
+functions:
+  createUser:
+    handler: user/create.create
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: user
+          method: post
+          cors: true
+
+  getCompanyInfo:
+    handler: company/company.getCompanyInfo
+    events:
+      - http:
+          method: get
+          path: /getCompanyInfo
+          cors: true
+
+  login:
+    handler: user/login.login
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          path: login
+          method: post
+          cors: true
+
+  createProf:
+    handler: prof/create.create
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          method: post
+          path: createPf
+          cors: true
+          
+  getProf:
+    handler: prof/get.get
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          method: post
+          path: getPf
+          cors: true
+          
+
+  forgetPswd:
+    handler: user/forgetPswd.forgetPswd
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          method: post
+          path: changePswd
+          cors: true
+          
+  changePwd:
+    handler: user/changePwd.changePwd
+    environment:
+      TABLE_NAME: UserbTable
+    events:
+      - http:
+          method: post
+          path: changePwd
+          cors: true
+          
+  sendToFollower:
+    handler: user/sendToFollower.sendToFollower
+    events:
+      - http:
+          method: post
+          path: sendToFollower
+          cors: true      
+
+  getTechIndor:
+    handler: prof/getTechIndicators.getTechIndicators
+    events:
+      - http:
+          method: GET
+          path: getTechIndicators/{id}
+          cors: true
+resources:
+  Resources:
+    TodosDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: TodosDynamoDbTable
+
+    UserbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: email
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: UserbTable
