@@ -5,25 +5,18 @@ Four Little Cute Monsters' project
 
 [demo](https://unswddk.github.io/comp9900/#/)
 
+Front-end: Vue-cli, Vuex
 
+Email sender: nodemailer
 
-Front-end: Vue-cli
+UI: i-view, Vue Matrial
 
-
-UI: i-view
-
-
-Chart: V-Charts
-
-
+Chart: V-Charts, trend
 
 API(stock info):https://www.alphavantage.co
 
-
-
-
 Back-end: Serverless
 
-
+Block-chain: Web3, truffle
 
 DB: DynamoDB
