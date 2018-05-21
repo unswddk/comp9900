@@ -51,14 +51,16 @@ Week 9
 3.  update the UI to display all the stock infomation 
 4.  implemented the backend part for store portfolio and get the stockes this user added in the portfolio
 5.  user can delete the stock in a selected portfolio
-6.  implement the blockchain part for the project
+6.  implementing the blockchain part for the project
 
 Week 10
 Iterated the website with some changes includes:
 -	Wrote CSS script of the black wizard to show the result of the prediction  
 -	Changed the peer table to Carousel K – Chart
 -   finish the blockchain part the display the trading board
--   fix bugs, and consider the UI is not so clear and 
+-   fix bugs, and consider the UI is not so clear and we develop a new UI for our project.
 
 Week 11
-Fixed the bugs the tester member find and Add some Blockchain techs
+1.Fixed the bugs, demo, get feedbake from lecture,then starting to think about how to use the blockchain in our project, not the trading usage, for other purpose like share the portfolio to every in the block, and store the data in block is more safe if the sever is down.
+2. try to finish some function related to portfolio sharing. how to motivate the user(export) and help the new user to avoid losing money in the stock market.
+3. reword funtion and following function 

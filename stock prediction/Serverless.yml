@@ -1,0 +1,54 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: prediction2
+
+
+
+# lock us to a pre-2.0 (not yet released) version of the serverless framework to protect us from breaking changes
+frameworkVersion: ">=1.16.0 <2.0.0"
+
+# pick our language and provider, this is automatically filled in by the template
+provider:
+  name: aws
+  runtime: python3.6
+  timeout: 30
+  region: us-east-1
+
+
+package:
+  include:
+    - handler.py
+  exclude:
+    - requirements.txt
+    - serverless.yml
+    - README.md
+    - LICENSE.txt
+
+# now the good stuff: we can define our functions here
+functions:
+  prediction:
+    handler: handler.prediction
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+  all:
+    handler: handler.all
+    events:
+      - http:
+          path: /all
+          method: get
+          cors: true
