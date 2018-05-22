@@ -45,4 +45,5 @@ Fixed the bugs and discussed together changing the UI of the website including
 - Developed the chart block for the stock serach module
 
 Week12
-To be continued
+- Reviewed the code with dead function and meanlingless comment
+- Reviesed the report with the user test part
