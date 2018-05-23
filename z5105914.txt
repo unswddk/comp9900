@@ -46,4 +46,4 @@ Fixed the bugs and discussed together changing the UI of the website including
 
 Week12
 - Reviewed the code with dead function and meanlingless comment
-- Reviesed the report with the user test part
+- Reviesed the report with the user test part, pictures
