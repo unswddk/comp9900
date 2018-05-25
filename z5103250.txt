@@ -11,13 +11,22 @@ week 5:
 more research on machine learning techniques and also trying to understand our own data and perform some preprocessing tasks and labeling data.
 
 week 6:
-Midterm break
+Midterm break so no meetings but testing the featuters that are ready so far.
 
 week 7:
 Trying to devise some financial indexes for the recommendation part of the website.
+and analysing the feasibility of this feature
 
 week 8:
 Testing the website to fix the possible bugs.
+helping in implementatino and testing the prediction part.
 
 week 9:
 Started writting the final report.
+
+week 10: 
+created the presentation and brocure and got ready for the presentation.
+
+week 11:
+Tested the final website and finished the final report.
+
