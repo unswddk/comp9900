@@ -99,6 +99,8 @@ export default {
               a.forEach(element => {
                 this.coinList.push(element);
               });
+              }else{
+              this.coinList = a.slice((this.start - 1) * 12, this.start * 12);
             }
     },
     //handleInsertGroup
