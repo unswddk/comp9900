@@ -34,8 +34,7 @@
           this.news = response.data.articles;
         },
         response => {
-          // 响应错误回调
-          console.log("服务器请求失败");
+          console.log("Error");
         }
       );
           }

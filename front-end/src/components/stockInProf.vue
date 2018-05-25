@@ -40,7 +40,7 @@ export default {
         this.stockList = response.data.company;
       },
       response => {
-        console.log("服务器请求失败");
+        console.log("Error");
       }
     );
     this.$http

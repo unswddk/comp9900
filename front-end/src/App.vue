@@ -300,13 +300,13 @@ export default {
                 }
               },
               response => {
-                // 响应错误回调
-                console.log("服务器请求失败");
+                // 
+                console.log("error");
               }
             );
 
           this.$Message.success("Success!");
-          //这里像后台发送用户信息经行注册
+          //
         } else {
           this.$Message.error("Fail!");
           this.$refs.formValidate.resetFields();

@@ -14,15 +14,6 @@ export default new Router({
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld,
-      // children: [
-      //   {
-      //     path: '/protflie',
-      //     component: UserProtfile,
-      //     meta : {
-      //       requireAuth: true, 
-      //     },
-      //   },
-      // ],
     },
     {
       path: '/changePwd/:id',

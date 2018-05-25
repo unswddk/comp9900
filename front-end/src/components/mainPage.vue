@@ -231,8 +231,7 @@ export default {
         this.getPeerInfo();
       },
       response => {
-        // 响应错误回调
-        console.log("服务器请求失败");
+        console.log("Error");
       }
     );
   },
@@ -270,7 +269,7 @@ export default {
           ".ax&apikey=D29LHM3HC6349901"
       )
       .then(response => {
-        // 响应成功回调
+       
         let keys = Object.keys(response.data["Time Series (Daily)"]);
         console.log(keys);
         console.log(response.data["Time Series (Daily)"])

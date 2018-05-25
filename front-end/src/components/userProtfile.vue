@@ -134,7 +134,7 @@ export default {
           this.stockList = response.data.company;
         },
         response => {
-          console.log("服务器请求失败");
+          console.log("error");
         }
       );
   },
@@ -187,7 +187,7 @@ export default {
       this.$refs.formInline.validate(valid => {
         if (valid) {
           this.$Message.success("Success created!");
-          //将新建的title加到本地的array中 ，然后在把整个array传到后台，更新这个array
+          //
           let newP = {
             title: this.formInline.title,
             element: [],
@@ -301,7 +301,7 @@ export default {
             console.log("error");
           }
         );
-      //向后台发送请求更新user
+      //update user
     }
   }
 };
