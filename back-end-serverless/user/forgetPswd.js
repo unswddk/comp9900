@@ -5,9 +5,9 @@ const dynamodb = require('../todos/dynamodb');
 const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     // host: 'smtp.ethereal.email',
-    service: 'Gmail', // 使用了内置传输发送邮件 查看支持列表：https://nodemailer.com/smtp/well-known/
-    port: 465, // SMTP 端口
-    secureConnection: true, // 使用了 SSL
+    service: 'Gmail', // https://nodemailer.com/smtp/well-known/
+    port: 465, // SMTP 
+    secureConnection: true, // SSL
     auth: {
         user: "a303162101@gmail.com",
         pass: "910121Dk"
