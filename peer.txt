@@ -1,0 +1,13 @@
+#Group name: Four Little Cute Monsters
+
+
+z5103250 9
+z5105914 9
+z5122763 9
+
+#5105914 is our backend developer do a lot help on stock prediction and user system
+
+#z5122763 is our scrum manager and managered trello frequenly, develop stock prediction KNN algorithm
+
+#z5103250 very good at writing report and find bugs for our project, and do a lot on research on how to design
+#a good stock prediction function

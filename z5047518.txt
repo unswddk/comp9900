@@ -5,13 +5,16 @@ Week 2
  
 Week 3
 Proposal phrase.
-1.	Worked together to use the UX tool to create the basic user interface and logic demo online. And recorded it to share with team members to help them understand the spec.
+1.	Worked together to use the UX tool to create the basic user interface and logic demo
+ online. And recorded it to share with team members to help them understand the spec.
 2.	Confirmed the tech stack as Front-end framework (vue.js), Serverless (Back-end)
 3.	Review the proposal and give them some tech support
-3.  create the raw interface by using vue-cli,vuex,iview,and decide to use Serverless framework and DynamoDB in the backend
+3.  create the raw interface by using vue-cli,vuex,iview,and decide to use Serverless framework 
+and DynamoDB in the backend
 
 Week 4
-1.	Prepared for first-step demo, including introducing the API https://www.alphavantage.co, reading the doc of the API, introducing the Chart drawing tool (I-View , V-Charts )
+1.	Prepared for first-step demo, including introducing the API https://www.alphavantage.co,
+ reading the doc of the API, introducing the Chart drawing tool (I-View , V-Charts )
 2.	Got familiar with the front-end framework and developed the website
 3.  finish the main Page and beging to start the user login in system
 
@@ -23,7 +26,8 @@ Finished the frist-step demo includes the cards of
 1.3	Peer stocks(Button group) for each selected stock
 2.	Stock K-chart page
 3.	Peer stock table
-Demonstrated to tutor in the lab and discussed with team member to see if we can implement the prediction module in the final demo.
+Demonstrated to tutor in the lab and discussed with team member to see if we can implement 
+the prediction module in the final demo.
 4.  implementing the portfolio system, which normaly CUSD function
 5.  update the UI of this website
 
@@ -61,6 +65,9 @@ Iterated the website with some changes includes:
 -   fix bugs, and consider the UI is not so clear and we develop a new UI for our project.
 
 Week 11
-1.Fixed the bugs, demo, get feedbake from lecture,then starting to think about how to use the blockchain in our project, not the trading usage, for other purpose like share the portfolio to every in the block, and store the data in block is more safe if the sever is down.
-2. try to finish some function related to portfolio sharing. how to motivate the user(export) and help the new user to avoid losing money in the stock market.
+1.Fixed the bugs, demo, get feedbake from lecture,then starting to think about how to 
+use the blockchain in our project, not the trading usage, for other purpose like share the portfolio
+ to every in the block, and store the data in block is more safe if the sever is down.
+2. try to finish some function related to portfolio sharing. how to motivate the user(export)
+ and help the new user to avoid losing money in the stock market.
 3. reword funtion and following function 
