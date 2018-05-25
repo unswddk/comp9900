@@ -86,7 +86,7 @@ export default {
           }
         },
         response => {
-          console.log("服务器请求失败");
+          console.log("Error");
         }
       );
   },
