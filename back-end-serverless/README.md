@@ -8,8 +8,8 @@
 
 > Has already been deployed to AWS as a Restful API and connect with the frontend
 
->createUser:
->TABLE_NAME: UserbTable
+###createUser:
+###TABLE_NAME: UserbTable
 >method: post
 >path: user
 
