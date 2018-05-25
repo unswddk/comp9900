@@ -11,42 +11,42 @@
 createUser:
 <br>
 TABLE_NAME: UserbTable
->method: post
->path: user
+<br>method: post
+<br>path: user
 
->login: 
->TABLE_NAME: UserbTable
->path: login
->method: post
+<br>login: 
+<br>TABLE_NAME: UserbTable
+<br>path: login
+<br>method: post
 
->getCompanyInfo:
->method: get
->path: /getCompanyInfo
+<br>getCompanyInfo:
+<br>method: get
+<br>path: /getCompanyInfo
     
->createProf:
->TABLE_NAME: UserbTable
->method: post
->path: createPf
+<br>createProf:
+<br>TABLE_NAME: UserbTable
+<br>method: post
+<br>path: createPf
 
->getProf:
->TABLE_NAME: UserbTable
->method: post
->path: getPf
+<br>getProf:
+<br>TABLE_NAME: UserbTable
+<br>method: post
+<br>path: getPf
 
->forgetPswd:
->TABLE_NAME: UserbTable
->method: post
->path: changePswd
+<br>forgetPswd:
+<br>TABLE_NAME: UserbTable
+<br>method: post
+<br>path: changePswd
 
->changePwd:
->TABLE_NAME: UserbTable
->method: post
->path: changePwd
+<br>changePwd:
+<br>TABLE_NAME: UserbTable
+<br>method: post
+<br>path: changePwd
 
->sendToFollower:
->method: post
->path: sendToFollower
+<br>sendToFollower:
+<br>method: post
+<br>path: sendToFollower
 
->getTechIndor:
->method: GET
->path: getTechIndicators/{id}
+<br>getTechIndor:
+<br>method: GET
+<br>path: getTechIndicators/{id}
