@@ -27,3 +27,8 @@ Fixed some bugs in knn stock prediction part, and connected to front-end.
 
 Week 11
 Tested the website and found some bugs and these bugs has been posted on trello.
+
+Week 12
+Written and modified report; had meeting about the new feature; did peer assessment; finalise the project.
+
+Thank you, everyone!
