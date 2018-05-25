@@ -60,7 +60,7 @@
         <md-content>CLOSE</md-content>
         <md-content>VOLUME</md-content>
         <span>   CHART</span>
-        <md-content>SELL</md-content>
+        <md-content>Remove</md-content>
   </div>
 
          <md-divider></md-divider>
@@ -82,9 +82,9 @@ export default {
   },
   computed:{
       canfollow(){
-          console.log(this.$store.state.allPortfolio[this.pkey].followers)
-          console.log(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].email)
-          console.log(this.$store.state.allPortfolio[this.pkey].followers.indexOf(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].email));
+        //   console.log(this.$store.state.allPortfolio[this.pkey].followers)
+        //   console.log(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].email)
+        //   console.log(this.$store.state.allPortfolio[this.pkey].followers.indexOf(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].email));
           if(this.$store.state.allPortfolio[this.pkey].followers.includes(this.$store.state.allPortfolio[this.$store.state.web3.coinbase].email)){
               return false;
           }else if(this.pkey === this.$store.state.web3.coinbase){

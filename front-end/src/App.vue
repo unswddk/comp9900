@@ -46,7 +46,7 @@
         </FormItem>
          <FormItem label="Password" prop="password">
             <Input v-model="loginformValidate.password"  type="password" placeholder="Enter your password"></Input>
-            <a @click="changePswd()" style="float:right">forget password</a>
+            <a @click="changePswd()" style="float:right">forgot password</a>
         </FormItem>
          </Form>
 </Modal>

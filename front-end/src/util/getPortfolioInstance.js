@@ -46,20 +46,29 @@ let getPortfolioInstance =  function (state) {
                 if (err) {
                 } else {
                     result.map(element => {
-                        // var portfolioCopy={
+                        // var portfolio={
                         //     name:'',
                         //     portfolioName:'',
                         //     email:'',
                         //     state:'',
                         //     balance:null,
-                        //     donation:'',
+                        //     reword:null,
                         //     index:null,
                         //     earn:null,
-                        //     likeNumber:'',
-                        //     followers:[],
+                        //     likeNumber:null,
+                        //     followers:["email.@email"],
                         //     follows:[],
-                        //     stockKeys:[],
-                        //     stocks:[]
+                        //     stockKeys:[1,2,3],
+                        //     stocks:[{
+                        //         id: "",
+                        //         code:"",
+                        //         state:"",
+                        //         buyDate:"",
+                        //         sellDate:"",
+                        //         amount:null,
+                        //         price:null
+
+                        // }]
                         // };
                         // allPortfolio[element]={};
                         store.state.portfolioInstace().getPortfolioList(
