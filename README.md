@@ -13,12 +13,9 @@
 >npm run dev
 >```
 
-### back-end: Serverless Farmework, nodejs, AWS, DynamoDB, nodemailer
+### Back-end: Serverless Farmework, nodejs, AWS, DynamoDB, nodemailer
 
->deployed to the AWS, and connect with the frontend,if you want to run this on you computer, do as follow:
->first configue you **AWS account and password** on you computer and then install Serverless framework
->then go the the back-end folder run
->```serverless deploy```
+> Has already been deployed to AWS as a Restful API and connect with the frontend
 
 ### Blockchain
 
