@@ -1,20 +1,22 @@
 <template>
 <div class="changePwd-form">
-    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+
+   <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
         <FormItem prop="password">
             <Input type="password" v-model="formInline.password" placeholder="Password">
-                <Icon type="ios-locked-outline" slot="prepend"></Icon>
             </Input>
+                      <!-- <md-field>
+      <label>New Password</label>
+      <md-input v-model="formInline.password"></md-input>
+    </md-field> -->
         </FormItem>
-        <FormItem>
-            <Button type="primary" @click="handleSubmit('formInline')">Update</Button>
-        </FormItem>
+         <md-button class="md-primary" @click="handleSubmit('formInline')">Update</md-button>
     </Form>
+
     </div>
 </template>
 <script>
 import { EventBus } from "./event-bus.js";
-// import "vue-awesome/icons";
 export default {
   name: "changePwd",
   data() {
@@ -71,8 +73,8 @@ export default {
 </script>
 <style >
 .changePwd-form {
-  margin: 0;
-  position: absolute;
+  margin: 0 0;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

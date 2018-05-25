@@ -1,7 +1,7 @@
 <template>
   <div>
 <portfolioCard v-for="(value,key) in allPortfolio" v-bind:message="value" v-bind:pkey="key" :key="key"style="display:inline-block"></portfolioCard>
- <md-button class="md-dense md-raised md-primary" @click="showDialog = true">ADD MY portfolio Card</md-button>
+ <md-button class="md-dense md-raised md-primary" @click="showDialog = true" v-if="reatedP">ADD MY portfolio Card</md-button>
 <md-dialog :md-active.sync="showDialog">
         <md-dialog-title class="md-title">Portfolio</md-dialog-title>
           <md-divider></md-divider>
@@ -83,6 +83,9 @@ export default {
     computed:{
         allPortfolio(){
             return this.$store.state.allPortfolio
+        },
+        reatedP(){
+            return JSON.stringify(this.$store.state.allPortfolio[this.$store.state.web3]) === '{}' 
         }
     },
     methods: {

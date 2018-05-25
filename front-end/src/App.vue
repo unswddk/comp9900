@@ -94,18 +94,18 @@
             <span class="md-list-item-text"><router-link to="/stocks">Stockes</router-link></span>
           </md-list-item>
 
-          <md-list-item>
+          <!-- <md-list-item>
             <md-icon>attach_money</md-icon>
             <span class="md-list-item-text"><router-link to="/trading">Trading</router-link>
             </span>
-          </md-list-item>
-            <!-- <md-list-item>
+          </md-list-item> -->
+            <md-list-item>
             <md-icon>turned_in</md-icon>
-            <span class="md-list-item-text"><router-link to="/portflio">Portfolio</router-link></span>
+            <span class="md-list-item-text"><router-link to="/portflio">Portfolios</router-link></span>
           </md-list-item>
-          <md-list-item> -->
+          <md-list-item>
             <md-icon>verified_user</md-icon>
-            <span class="md-list-item-text"><router-link to="/portfolioInBc">Portfolio Share SyStem</router-link></span>
+            <span class="md-list-item-text"><router-link to="/portfolioInBc">Portfolios Sharing</router-link></span>
           </md-list-item>
         </md-list>
       </md-app-drawer>

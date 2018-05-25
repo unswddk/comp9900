@@ -1,10 +1,9 @@
 import store from '../store/store.js'
 import Web3 from 'web3'
 let allPortfolio={}
-let getPortfolioInstance =  function (state) {
+let getAllPortfolio =  function (state) {
     let web3 = window.web3 
     web3 = new Web3(web3.currentProveider) 
-    setInterval(() => {
     store.state.portfolioInstace().getAllPortfolio((err, result) => {
                 if (err) {
                 } else {
@@ -136,6 +135,5 @@ let getPortfolioInstance =  function (state) {
                    
                 }
                   })
-                }, 500);
                 }
-export default getPortfolioInstance
+export default getAllPortfolio

@@ -13,6 +13,7 @@ import pollContractFunctionCall from '../util/pollContractFunctionCall'
 import {ABI,address} from '../util/constants/secondContract';
 import getPortfolio from '../util/getPortfolio';
 import sendEmail from '../util/sendEmail';
+import getAllPortfolio from '../util/getAllPortfolio'
 Vue.use(Vuex)
 
 const state = {
@@ -53,7 +54,6 @@ const mutations = {
     web3Copy.isInjected = result.injectedWeb3
     web3Copy.web3Instance = result.web3
     state.web3 = web3Copy
-
     console.log(state.userInfo);
     state.userInfo.forEach(element => {
       if (element.address == state.web3.coinbase) {
@@ -146,6 +146,7 @@ const mutations = {
         // state.portfolioInstace = payload;
         state.portfolioInstace = () => payload;
         console.log(state.portfolioInstace());
+        getAllPortfolio();
         getPortfolioInstance();
       },
       updatePortfolioInstance(state,payload){
@@ -219,6 +220,9 @@ const actions = {
     getPortfolio.then(result => {
     commit('getPortfolioInstance',result)
   })
+  },
+  getAllPortfolioCall({commit}){
+    getAllPortfolio();
   },
   updatePortfolio({commit},result){
     commit('updatePortfolioInstance',result)
