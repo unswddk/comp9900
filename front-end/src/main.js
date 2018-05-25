@@ -24,21 +24,16 @@ new Vue({
   template: '<App/>'
 })
 router.beforeEach((to,from,next) => {
-
   if(to.meta.requireAuth){
-     
       if (store.getters.isLogin){
-      
           next();
       }else {
-      
           next({
               path : '/',
               query : {redirect : to.fullPath}
           })
       }
   }else {
-  
       next()
   }
 });
