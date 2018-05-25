@@ -4,7 +4,7 @@ const state = {
   
   const mutations = {
     PUSH_LOADING (state, playload) {
-      state.loadingList.push({text: playload || '玩命加载中...'})
+      state.loadingList.push({text: playload || 'Loading...'})
     },
     SHIFT_LOADING (state) {
       state.loadingList.shift()
