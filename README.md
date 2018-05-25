@@ -7,6 +7,7 @@
 ### Front-end: Vue-cli, Vuex, iview, Vue Matrial, Vue resource V-Charts, trend
 
 >Start with git clone the project, then go to the Front-end folder then
+> cd {project_name}/front-end
 >```npm
 >npm install
 >npm run dev
