@@ -2,7 +2,7 @@
 
 ## Four Little Cute Monsters
 
->[demo](https://unswddk.github.io/comp9900/#/)
+
 
 ### Front-end: Vue-cli, Vuex, iview, Vue Matrial, Vue resource V-Charts, trend
 
